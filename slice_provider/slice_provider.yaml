@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+
+  soa:
+    build:
+      context: service-orchestrator-adaptor/.
+      dockerfile: Dockerfile
+    container_name: soa
+    ports:
+      - 5011:5011
+
+  slice_builder:
+    build:
+      context: slice-builder/.
+      dockerfile: Dockerfile
+    container_name: slice_builder
+    ports:
+      - 5003:5003
+
+  ssp:
+    build:
+      context: slice-spec-processor/.
+      dockerfile: Dockerfile
+    container_name: ssp
+    ports:
+      - 5002:5002

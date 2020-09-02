@@ -1,0 +1,8 @@
+requests
+pika==0.13.1
+influxdb
+flask
+flask_request_params
+pyyaml
+paramiko
+docker

@@ -1,0 +1,440 @@
+slices:
+   sliced:
+      id: IoTService_sliced
+      name: IoTService_sliced
+      short-name: IoTService_sliced
+      description: Slicing for Elastic IoT Service
+      vendor: dojot
+      version: '1.0'
+
+      # logo of slice for visualization purposes
+      logo: dojot.png
+
+      slice-constraints:
+         geographic: [BRAZIL, EUROPE]
+         dc-slice-parts: 1  # Could be a constraint on values.
+         edge-slice-parts: 1
+         net-slice-parts: 1
+
+      slice-requirements:
+         elasticity: true
+         reliability:
+            description: reliability level
+            enabled: true
+            value: none   # {path-backup, logical-backup, physical-backup\}
+
+      slice-lifecycle:
+         description: lifecycle status
+         status: construction    # {modification, activation, deletion\}
+
+      cost:
+         dc-model:
+            model: COST_PER_PHYSICAL_MACHINE_PER_DAY
+            value-euros: {lower_than_equal: 10}
+         net-model:
+            model: COST_PER_LINK_PER_DAY
+            value-euros: {lower_than_equal: 50}
+
+      slice-timeframe:
+         service-start-time: {100919: 10 pm}
+         service-stop-time: {101019: 10 pm}
+
+      slice-parts-options:
+         - dc-slice-choices:
+             name: dc-slice1
+             alternatives:
+                 - dc-slice-part:
+                     type: DC
+                     location: Brazil
+
+                     cost:
+                         dc-model:
+                            model: COST_PER_PHYSICAL_MACHINE_PER_DAY
+                            value-euros: 5
+                         
+                     dc-slice-controller:
+                         dc-slice-provider: UNICAMP
+                         ip: 1xx.xxx.xxx.1
+                         port: 5000
+
+                     monitoring-parameters:
+                        tool: netdata
+                        measurements-db-ip: <X>
+                        measurements-db-port: <X>
+                        granularity-secs: 10
+                        type: host
+                        metrics:
+                           - metric:
+                                name: PERCENT_CPU_UTILIZATION        
+                           - metric:
+                                name: MEGABYTES_MEMORY_UTILIZATION        
+                           - metric:
+                                name: TOTAL_BYTES_DISK_IN        
+                           - metric:
+                                name: TOTAL_BYTES_DISK_OUT 
+                           - metric:
+                                name: TOTAL_BYTES_NET_RX 
+                           - metric:
+                                name: TOTAL_BYTES_NET_TX 
+
+                     VIM:
+                         name: KUBERNETES 
+                         version: v1.14.1
+                         vim-shared: false
+                         vim-federated: false
+                         vim-ref: undefined
+                         host-count: 1
+                         vdus:
+                            - vdu:
+                              id: k8s-master
+                              name: k8s-master
+                              description: Master (controller) of kubernetes cluster
+                              instance-count: 1
+                              hosting: SHARED
+                              vdu-image: 'kube-template'
+
+                              epa-attributes:
+                                 host-epa:
+                                    cpu-architecture: PREFER_X86_64
+                                    cpu-number: 4
+                                    storage-gb: 100
+                                    memory-mb: {greater_or_equal: 8192}
+                                    os-properties:
+                                       architecture: {equal: x86_64}
+                                       type: linux
+                                       distribution: ubuntu
+                                       version: 18.04
+                                    host-image: indefined
+                            - vdu:
+                              id: k8s-node
+                              name: k8s-node
+                              description: Compute node of kubernetes cluster
+                              instance-count: 3
+                              hosting: SHARED 
+                              vdu-image: 'kube-template'
+                         
+                              epa-attributes:
+                                 host-epa:
+                                    cpu-architecture: PREFER_X86_64
+                                    cpu-number: 8
+                                    storage-gb: 500
+                                    memory-mb: {greater_or_equal: 32768}
+                                    os-properties:
+                                       architecture: {equal: x86_64}
+                                       type: linux
+                                       distribution: ubuntu
+                                       version: 18.04
+                                    host-image: undefined
+
+                 - dc-slice-part:
+                     type: DC
+                     location: Brazil
+
+                     cost:
+                         dc-model:
+                            model: COST_PER_PHYSICAL_MACHINE_PER_DAY
+                            value-euros: 9
+                         
+                     dc-slice-controller:
+                         dc-slice-provider: UFU
+                         ip: 1xx.xxx.xxx.2
+                         port: 5000
+              
+                     monitoring-parameters:
+                        tool: netdata
+                        measurements-db-ip: <X>
+                        measurements-db-port: <X>
+                        granularity-secs: 10
+                        type: host
+                        metrics:
+                           - metric:
+                                name: PERCENT_CPU_UTILIZATION        
+                           - metric:
+                                name: MEGABYTES_MEMORY_UTILIZATION        
+                           - metric:
+                                name: TOTAL_BYTES_DISK_IN        
+                           - metric:
+                                name: TOTAL_BYTES_DISK_OUT 
+                           - metric:
+                                name: TOTAL_BYTES_NET_RX 
+                           - metric:
+                                name: TOTAL_BYTES_NET_TX 
+
+                     VIM:
+                         name: KUBERNETES 
+                         version: v1.14.1
+                         vim-shared: false
+                         vim-federated: false
+                         vim-ref: undefined
+                         host-count: 1
+                         vdus:
+                            - vdu:
+                              id: k8s-master
+                              name: k8s-master
+                              description: Master (controller) of kubernetes cluster
+                              instance-count: 1
+                              hosting: SHARED
+                              vdu-image: 'kube-template'
+
+                              epa-attributes:
+                                 host-epa:
+                                    cpu-architecture: PREFER_X86_64
+                                    cpu-number: 4
+                                    storage-gb: 100
+                                    memory-mb: {greater_or_equal: 8192}
+                                    os-properties:
+                                       architecture: {equal: x86_64}
+                                       type: linux
+                                       distribution: ubuntu
+                                       version: 18.04
+                                    host-image: indefined
+                            - vdu:
+                              id: k8s-node
+                              name: k8s-node
+                              description: Compute node of kubernetes cluster
+                              instance-count: 3
+                              hosting: SHARED 
+                              vdu-image: 'kube-template'
+                         
+                              epa-attributes:
+                                 host-epa:
+                                    cpu-architecture: PREFER_X86_64
+                                    cpu-number: 8
+                                    storage-gb: 500
+                                    memory-mb: {greater_or_equal: 32768}
+                                    os-properties:
+                                       architecture: {equal: x86_64}
+                                       type: linux
+                                       distribution: ubuntu
+                                       version: 18.04
+                                    host-image: undefined
+
+         - dc-slice-choices:
+             name: dc-slice2
+             alternatives:
+                 - dc-slice-part:
+                     type: EDGE
+                     location: EUROPE
+
+                     cost:
+                         dc-model:
+                            model: COST_PER_PHYSICAL_MACHINE_PER_DAY
+                            value-euros: 9
+                         
+                     dc-slice-controller:
+                         dc-slice-provider: TELEFONICA
+                         ip: 1xx.xxx.xxx.3
+                         port: 5000
+
+                     monitoring-parameters:
+                        tool: prometheus
+                        measurements-db-ip: <X>
+                        measurements-db-port: <X>
+                        granularity-secs: 10
+                        type: <container/host/all>
+                        metrics:
+                           - metric:
+                                name: PERCENT_CPU_UTILIZATION        
+                           - metric:
+                                name: MEGABYTES_MEMORY_UTILIZATION        
+                           - metric:
+                                name: TOTAL_BYTES_DISK_IN        
+                           - metric:
+                                name: TOTAL_BYTES_DISK_OUT 
+                           - metric:
+                                name: TOTAL_BYTES_NET_RX 
+                           - metric:
+                                name: TOTAL_BYTES_NET_TX 
+
+                     VIM:
+                         name: KUBERNETES 
+                         version: v1.14.1 
+                         vim-shared: false
+                         vim-federated: false
+                         vim-ref: undefined
+                         host-count: 1
+                         vdus:
+                            - vdu:
+                              id: k8s-master
+                              name: k8s-master
+                              description: Master (controller) of kubernetes cluster
+                              instance-count: 1
+                              hosting: SHARED
+                              vdu-image: 'kube-template'
+
+                              epa-attributes:
+                                 host-epa:
+                                     cpu-architecture: PREFER_X86_64
+                                     cpu-number: 4
+                                     storage-gb: 100
+                                     memory-mb: {greater_or_equal: 8192}
+                                     os-properties:
+                                         architecture: {equal: x86_64}
+                                         type: linux
+                                         distribution: ubuntu
+                                         version: 18.04
+                                     host-image: indefined
+                            - vdu:
+                              id: k8s-node
+                              name: k8s-node
+                              description: Compute node of kubernetes cluster
+                              instance-count: 1
+                              hosting: SHARED 
+                              vdu-image: 'kube-template'
+
+                              epa-attributes:
+                                 host-epa:
+                                     cpu-architecture: PREFER_X86_64
+                                     cpu-number: 4
+                                     storage-gb: 500
+                                     memory-mb: {greater_or_equal: 32768}
+                                     os-properties:
+                                         architecture: {equal: x86_64}
+                                         type: linux
+                                         distribution: ubuntu
+                                         version: 18.04
+                                     host-image: undefined
+
+                 - dc-slice-part:
+                     type: EDGE
+                     location: EUROPE
+
+                     cost:
+                         dc-model:
+                            model: COST_PER_PHYSICAL_MACHINE_PER_DAY
+                            value-euros: 10
+                         
+                     dc-slice-controller:
+                         dc-slice-provider: UPC
+                         ip: 1xx.xxx.xxx.4
+                         port: 5000
+
+                     monitoring-parameters:
+                        tool: prometheus
+                        measurements-db-ip: <X>
+                        measurements-db-port: <X>
+                        granularity-secs: 10
+                        type: <container/host/all>
+                        metrics:
+                           - metric:
+                                name: PERCENT_CPU_UTILIZATION        
+                           - metric:
+                                name: MEGABYTES_MEMORY_UTILIZATION        
+                           - metric:
+                                name: TOTAL_BYTES_DISK_IN        
+                           - metric:
+                                name: TOTAL_BYTES_DISK_OUT 
+                           - metric:
+                                name: TOTAL_BYTES_NET_RX 
+                           - metric:
+                                name: TOTAL_BYTES_NET_TX 
+
+                     VIM:
+                         name: KUBERNETES 
+                         version: v1.14.1 
+                         vim-shared: false
+                         vim-federated: false
+                         vim-ref: undefined
+                         host-count: 1
+                         vdus:
+                            - vdu:
+                              id: k8s-master
+                              name: k8s-master
+                              description: Master (controller) of kubernetes cluster
+                              instance-count: 1
+                              hosting: SHARED
+                              vdu-image: 'kube-template'
+
+                              epa-attributes:
+                                 host-epa:
+                                     cpu-architecture: PREFER_X86_64
+                                     cpu-number: 4
+                                     storage-gb: 100
+                                     memory-mb: {greater_or_equal: 8192}
+                                     os-properties:
+                                         architecture: {equal: x86_64}
+                                         type: linux
+                                         distribution: ubuntu
+                                         version: 18.04
+                                     host-image: indefined
+                            - vdu:
+                              id: k8s-node
+                              name: k8s-node
+                              description: Compute node of kubernetes cluster
+                              instance-count: 1
+                              hosting: SHARED 
+                              vdu-image: 'kube-template'
+
+                              epa-attributes:
+                                 host-epa:
+                                     cpu-architecture: PREFER_X86_64
+                                     cpu-number: 4
+                                     storage-gb: 500
+                                     memory-mb: {greater_or_equal: 32768}
+                                     os-properties:
+                                         architecture: {equal: x86_64}
+                                         type: linux
+                                         distribution: ubuntu
+                                         version: 18.04
+                                     host-image: undefined
+
+         - net-slice-choices:
+             name: pop-dc-slice1-to-pop-dc-slice2
+             alternatives:
+                 - net-slice-part:
+                     cost:
+                         net-model:
+                            model: COST_PER_LINK_PER_DAY
+                            value-euros: 20
+                     
+                     wan-slice-controller:
+                         wan-slice-provider: UNICAMP
+                         ip: 1xx.xxx.xxx.5
+                         port: 6000
+
+                     WIM: 
+                         name: VXLAN 
+                         version: 1.0 
+                         wim-shared: true
+                         wim-federated: false
+                         wim-ref: undefined
+
+                     links:
+                         - dc-part1: dc-slice1
+                         - dc-part2: dc-slice2
+                         - requirements:
+                              bandwidth-GB: 1
+                                               
+                     link-ends:
+                         link-end1-ip: undefined
+                         link-end2-ip: undefined
+                 
+                 - net-slice-part:
+                     cost:
+                         net-model:
+                            model: COST_PER_LINK_PER_DAY
+                            value-euros: 45
+                 
+                     wan-slice-controller:
+                         wan-slice-provider: UFU
+                         ip: 1xx.xxx.xxx.6
+                         port: 6000
+
+                     WIM: 
+                         name: VXLAN 
+                         version: 1.0 
+                         wim-shared: true
+                         wim-federated: false
+                         wim-ref: undefined
+
+                     links:
+                         - dc-part1: dc-slice1
+                         - dc-part2: dc-slice2
+                         - requirements:
+                              bandwidth-GB: 1
+           
+                     link-ends:
+                         link-end1-ip: undefined
+                         link-end2-ip: undefined
+                         
+

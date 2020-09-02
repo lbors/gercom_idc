@@ -1,0 +1,39 @@
+Added new types so that Measurements can send a List or a Table
+--This line, and those below, will be ignored--
+
+A    table
+AM   table/TableAttribute.class
+A    table/TableHeader.java
+AM   table/TableRow.class
+A    table/TableProbeAttribute.java
+AM   table/DefaultTableAttribute.class
+A    table/DefaultTableHeader.java
+A    table/TableException.java
+AM   table/TableValue.class
+AM   table/DefaultTableRow.class
+AM   table/Table.class
+A    table/TableAttribute.java
+AM   table/DefaultTableValue.class
+A    table/TableRow.java
+AM   table/DefaultTable.class
+A    table/DefaultTableAttribute.java
+A    table/DefaultTableRow.java
+AM   table/TableHeader.class
+A    table/TableValue.java
+A    table/Table.java
+AM   table/TableProbeAttribute.class
+A    table/DefaultTableValue.java
+AM   table/DefaultTableHeader.class
+AM   table/TableException.class
+A    table/DefaultTable.java
+A    list
+AM   list/DefaultMList.class
+A    list/MListValue.java
+A    list/ListProbeAttribute.java
+A    list/MList.java
+AM   list/MListValue.class
+A    list/DefaultMListValue.java
+AM   list/ListProbeAttribute.class
+AM   list/MList.class
+A    list/DefaultMList.java
+AM   list/DefaultMListValue.class

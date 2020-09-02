@@ -1,0 +1,95 @@
+<project name="monitoring" default="usage" basedir=".">
+
+  <!-- Initializations -->
+  <target name="init">    
+    <echo message="------------ Building Lattice Monitoring Framework ----------"/>
+    <echo message=""/>
+    <property name="sources" value="${basedir}"/>
+    <property name="classes" value="../classes"/>
+    <property name="external.core.jars" value="../libs/core/libvirt-0.2.1.jar:../libs/core/resty-0.3.2.jar:../libs/core/slf4j-api-1.6.4.jar:../libs/core/slf4j-simple-1.7.21.jar:../libs/core/jeromq-0.3.6.jar" /> 
+ 
+    <property name="external.controller.jars" value="${external.core.jars}:../libs/controller/restconsole-0.1.0.jar:../libs/controller/simple-4.1.21.jar:../libs/controller/jsch-0.1.53.jar" />
+
+    <property name="external.others.jars" value="../libs/misc/mongo-java-driver-3.2.2.jar:../libs/misc/koala-xmlstore-0.5.4.jar:../libs/misc/tomP2P/TomP2P-4.4.jar:../libs/misc/tomP2P/netty-3.5.3.Patched.jar:../libs/misc/protobuf-java-3.3.1.jar"/>
+
+    <property name="api" value="${basedir}/docs"/>    
+    <property name="year" value="2019"/>
+    <property name="jars" value="../jars"/>
+    <property name="release" value="2.0.1"/>
+  </target>
+
+  <!-- Build -->
+  <target name="build" depends="init">
+    <echo message="------ Compiling application"/>
+    <mkdir dir="${classes}"/>
+    <javac debug="on" srcdir="${sources}" classpath="${external.controller.jars}:${external.others.jars}"
+           source="1.8" target="1.8" includeantruntime="false"
+	   destdir="${classes}">
+    <compilerarg value="-parameters" />	   
+    <include name="**" />
+    </javac>
+  </target>
+
+  <!-- Archive -->
+  <target name="dist" depends="build">
+    <echo message="------ Building Jar files for Core and Controller"/>
+    <jar jarfile="${jars}/monitoring-bin-controller-${release}.jar" 
+	    basedir="${classes}" includes="**" excludes="**/*.java" > 
+	    <zipgroupfileset dir="../libs/core" includes="*.jar" />
+	    <zipgroupfileset dir="../libs/controller" includes="*.jar" />
+    </jar>
+
+    <jar jarfile="${jars}/monitoring-bin-core-${release}.jar"
+	    basedir="${classes}" includes="**" excludes="**/*.java **/control/controller/** **/control/deployment/** **/control/probescatalogue/** **/test/*"> 
+	    <zipgroupfileset dir="../libs/core" includes="*.jar" />
+    </jar>
+
+
+    <jar jarfile="${jars}/monitoring-bin-core-all-${release}.jar"
+	    basedir="${classes}" includes="**" excludes="**/*.java **/control/controller/** **/control/deployment/** **/control/probescatalogue/** **/test/*"> 
+	    <zipgroupfileset dir="../libs/core" includes="*.jar" />
+	    <zipgroupfileset dir="../libs/misc" includes="*.jar" />
+	    <zipgroupfileset dir="../libs/misc/tomP2P" includes="*.jar" />
+
+    </jar>
+
+
+    <jar jarfile="${jars}/monitoring-src-${release}.jar" basedir="${basedir}" includes="**" excludes="**/*.class" />
+      
+</target>
+
+  <!-- JavaDoc -->
+  <target name="javadoc" depends="build">
+     <echo message="------ Running JavaDoc"/>
+     <javadoc packagenames="mon.lattice.*"
+              sourcepath="${sources}"
+              destdir="${api}"
+	      classpath="${external.jars}"
+	      excludepackagenames="eu.reservoir.demo, eu.reservoir.demo.OLD"
+              bottom="Lattice Monitoring ${release}"
+              author="false">
+      <classpath>
+        <pathelement location="${classes}"/>
+      </classpath>
+     </javadoc>
+  </target>
+
+  <!-- ALL -->
+  <target name="all" depends="dist, javadoc">
+  </target>
+
+  <!-- Usage -->
+  <target name="usage">
+     <echo message="*** LattceMonitoring Framework ANT build script ***"/>
+     <echo message="Usage : "/>
+     <echo message="   ant [target]"/>
+     <echo message=""/>     
+     <echo message="   target : "/>     
+     <echo message="            build : Build Application"/>     
+     <echo message="            dist  : Build Application + Archive (JAR)"/>     
+     <echo message="            javadoc  : Build Application + Javadoc"/>     
+     <echo message="            all   : Build Application + Archive + JavaDoc"/>       
+  </target>
+
+</project>
+

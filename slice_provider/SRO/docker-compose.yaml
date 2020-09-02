@@ -1,0 +1,46 @@
+version: '3.4'
+
+services:
+
+  neo4j-server:
+    image: neo4j:latest
+    volumes:
+      - ./neo4j/data:/data
+    ports:
+      - 7474:7474
+      - 7687:7687
+    environment:
+      - NEO4J_AUTH=neo4j/admin
+
+  sdb-server:
+    depends_on:
+      - neo4j-server
+    links:
+      - neo4j-server
+    build:
+      context: .
+      target: SDB
+    ports:
+      - 5006:5006
+    volumes:
+      - ./logs:/home/SDB/logs
+    environment: 
+      - SDBIP=localhost
+      - NEO4JIP=neo4j-server
+    entrypoint: python3 sdb-rest.py
+
+  sro-server:
+    depends_on:
+      - sdb-server
+    links:
+      - sdb-server
+    build:
+      context: .
+      target: SRO
+    ports:
+      - 5005:5005
+    volumes:
+      - .:/home/SRO
+    environment: 
+      - SDBIP=sdb-server
+    entrypoint: python3 sro-rest.py

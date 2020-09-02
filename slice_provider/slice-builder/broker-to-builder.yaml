@@ -1,0 +1,546 @@
+slice-parts-options:
+- dc-slice-choices:
+    alternatives:
+    - dc-slice-part:
+        VIM:
+          host-count: 1
+          name: xen-vim
+          vdus:
+          - vdu:
+              description: load balancer and content services
+              epa-attributes:
+                host-epa:
+                  cpu-architecture: X86_64
+                  cpu-number: 4
+                  host-image: indefined
+                  memory-mb: 8192
+                  os-properties:
+                    architecture: x86_64
+                    distribution: ubuntu
+                    type: linux
+                    version: 16.04
+                  storage-gb: 30
+              hosting: SHARED
+              id: core_vm
+              instance-count: 1
+              name: core_vm
+              vdu-image: core-vm-template
+          version: XEN-SERVER
+          vim-federated: false
+          vim-ref: undefined
+          vim-shared: false
+        cost:
+          model: COST_PER_PHYSICAL_MACHINE_PER_DAY
+          value-euros: 30
+        dc-slice-controller:
+          dc-slice-provider: DC UNICAMP
+          ip: 143.106.11.131
+          port: 5000
+        location: AMERICA.BRAZIL
+        monitoring-parameters:
+          granularity-secs: 10
+          measurements-db-ip: <X>
+          measurements-db-port: <X>
+          metrics:
+          - metric:
+              name: PERCENT_CPU_UTILIZATION
+          - metric:
+              name: MEGABYTES_MEMORY_UTILIZATION
+          - metric:
+              name: TOTAL_BYTES_DISK_IN
+          - metric:
+              name: TOTAL_BYTES_DISK_OUT
+          - metric:
+              name: TOTAL_BYTES_NET_RX
+          - metric:
+              name: TOTAL_BYTES_NET_TX
+          tool: netdata
+          type: host
+        slice-time-frame:
+          service-start-time:
+            '100919': 10 pm
+          service-stop-time:
+            '101019': 10 pm
+        type: DC
+    - dc-slice-part:
+        VIM:
+          host-count: 1
+          name: xen-vim
+          vdus:
+          - vdu:
+              description: load balancer and content services
+              epa-attributes:
+                host-epa:
+                  cpu-architecture: X86_64
+                  cpu-number: 4
+                  host-image: indefined
+                  memory-mb: 8192
+                  os-properties:
+                    architecture: x86_64
+                    distribution: ubuntu
+                    type: linux
+                    version: 16.04
+                  storage-gb: 30
+              hosting: SHARED
+              id: core_vm
+              instance-count: 1
+              name: core_vm
+              vdu-image: core-vm-template
+          version: XEN-SERVER
+          vim-federated: false
+          vim-ref: undefined
+          vim-shared: false
+        cost:
+          model: COST_PER_PHYSICAL_MACHINE_PER_DAY
+          value-euros: 60
+        dc-slice-controller:
+          dc-slice-provider: DC UFSCar
+          ip: 200.133.239.38
+          port: 23400
+        location: AMERICA.BRAZIL
+        monitoring-parameters:
+          granularity-secs: 10
+          measurements-db-ip: <X>
+          measurements-db-port: <X>
+          metrics:
+          - metric:
+              name: PERCENT_CPU_UTILIZATION
+          - metric:
+              name: MEGABYTES_MEMORY_UTILIZATION
+          - metric:
+              name: TOTAL_BYTES_DISK_IN
+          - metric:
+              name: TOTAL_BYTES_DISK_OUT
+          - metric:
+              name: TOTAL_BYTES_NET_RX
+          - metric:
+              name: TOTAL_BYTES_NET_TX
+          tool: netdata
+          type: host
+        slice-time-frame:
+          service-start-time:
+            '100919': 10 pm
+          service-stop-time:
+            '101019': 10 pm
+        type: DC
+    name: core-dc
+- dc-slice-choices:
+    alternatives:
+    - dc-slice-part:
+        VIM:
+          host-count: 1
+          name: KUBERNETES
+          vdus:
+          - vdu:
+              description: Master node for CDN deployment
+              epa-attributes:
+                host-epa:
+                  cpu-architecture: X86_64
+                  cpu-number: 2
+                  host-image: undefined
+                  memory-mb: 4096
+                  os-properties:
+                    architecture: x86_64
+                    distribution: undefined
+                    type: linux
+                    version: undefined
+                  storage-gb: 10
+              hosting: SHARED
+              id: k8s-master
+              instance-count: 1
+              name: k8s-master
+              vdu-image: k8s-cdn-template
+          - vdu:
+              description: Compute node for CDN deployment
+              epa-attributes:
+                host-epa:
+                  cpu-architecture: X86_64
+                  cpu-number: 2
+                  host-image: undefined
+                  memory-mb: 4096
+                  os-properties:
+                    architecture: x86_64
+                    distribution: undefined
+                    type: linux
+                    version: undefined
+                  storage-gb: 10
+              hosting: SHARED
+              id: k8s-node
+              instance-count: 1
+              name: k8s-node
+              vdu-image: k8s-cdn-template
+          version: undefined
+          vim-federated: false
+          vim-ref: undefined
+          vim-shared: false
+        cost:
+          model: COST_PER_PHYSICAL_MACHINE_PER_DAY
+          value-euros: 30
+        dc-slice-controller:
+          dc-slice-provider: DC UNICAMP
+          ip: 143.106.11.131
+          port: 5000
+        location: AMERICA.BRAZIL
+        monitoring-parameters:
+          granularity-secs: 10
+          measurements-db-ip: <X>
+          measurements-db-port: <X>
+          metrics:
+          - metric:
+              name: PERCENT_CPU_UTILIZATION
+          - metric:
+              name: MEGABYTES_MEMORY_UTILIZATION
+          - metric:
+              name: TOTAL_BYTES_DISK_IN
+          - metric:
+              name: TOTAL_BYTES_DISK_OUT
+          - metric:
+              name: TOTAL_BYTES_NET_RX
+          - metric:
+              name: TOTAL_BYTES_NET_TX
+          tool: prometheus
+          type: all
+        slice-time-frame:
+          service-start-time:
+            '100919': 10 pm
+          service-stop-time:
+            '101019': 10 pm
+        type: EDGE
+    - dc-slice-part:
+        VIM:
+          host-count: 1
+          name: KUBERNETES
+          vdus:
+          - vdu:
+              description: Master node for CDN deployment
+              epa-attributes:
+                host-epa:
+                  cpu-architecture: X86_64
+                  cpu-number: 2
+                  host-image: undefined
+                  memory-mb: 4096
+                  os-properties:
+                    architecture: x86_64
+                    distribution: undefined
+                    type: linux
+                    version: undefined
+                  storage-gb: 10
+              hosting: SHARED
+              id: k8s-master
+              instance-count: 1
+              name: k8s-master
+              vdu-image: k8s-cdn-template
+          - vdu:
+              description: Compute node for CDN deployment
+              epa-attributes:
+                host-epa:
+                  cpu-architecture: X86_64
+                  cpu-number: 2
+                  host-image: undefined
+                  memory-mb: 4096
+                  os-properties:
+                    architecture: x86_64
+                    distribution: undefined
+                    type: linux
+                    version: undefined
+                  storage-gb: 10
+              hosting: SHARED
+              id: k8s-node
+              instance-count: 1
+              name: k8s-node
+              vdu-image: k8s-cdn-template
+          version: undefined
+          vim-federated: false
+          vim-ref: undefined
+          vim-shared: false
+        cost:
+          model: COST_PER_PHYSICAL_MACHINE_PER_DAY
+          value-euros: 60
+        dc-slice-controller:
+          dc-slice-provider: DC UFSCar
+          ip: 200.133.239.38
+          port: 23400
+        location: AMERICA.BRAZIL
+        monitoring-parameters:
+          granularity-secs: 10
+          measurements-db-ip: <X>
+          measurements-db-port: <X>
+          metrics:
+          - metric:
+              name: PERCENT_CPU_UTILIZATION
+          - metric:
+              name: MEGABYTES_MEMORY_UTILIZATION
+          - metric:
+              name: TOTAL_BYTES_DISK_IN
+          - metric:
+              name: TOTAL_BYTES_DISK_OUT
+          - metric:
+              name: TOTAL_BYTES_NET_RX
+          - metric:
+              name: TOTAL_BYTES_NET_TX
+          tool: prometheus
+          type: all
+        slice-time-frame:
+          service-start-time:
+            '100919': 10 pm
+          service-stop-time:
+            '101019': 10 pm
+        type: EDGE
+    name: edge-dc-slice-brazil
+- dc-slice-choices:
+    alternatives:
+    - dc-slice-part:
+        VIM:
+          host-count: 1
+          name: KUBERNETES
+          vdus:
+          - vdu:
+              description: Master node for CDN deployment
+              epa-attributes:
+                host-epa:
+                  cpu-architecture: X86_64
+                  cpu-number: 2
+                  host-image: undefined
+                  memory-mb: 4096
+                  os-properties:
+                    architecture: x86_64
+                    distribution: undefined
+                    type: linux
+                    version: undefined
+                  storage-gb: 10
+              hosting: SHARED
+              id: k8s-master
+              instance-count: 1
+              name: k8s-master
+              vdu-image: k8s-cdn-template
+          - vdu:
+              description: Compute node for CDN deployment
+              epa-attributes:
+                host-epa:
+                  cpu-architecture: X86_64
+                  cpu-number: 2
+                  host-image: undefined
+                  memory-mb: 4096
+                  os-properties:
+                    architecture: x86_64
+                    distribution: undefined
+                    type: linux
+                    version: undefined
+                  storage-gb: 10
+              hosting: SHARED
+              id: k8s-node
+              instance-count: 1
+              name: k8s-node
+              vdu-image: k8s-cdn-template
+          version: undefined
+          vim-federated: false
+          vim-ref: undefined
+          vim-shared: false
+        cost:
+          model: COST_PER_PHYSICAL_MACHINE_PER_DAY
+          value-euros: 50
+        dc-slice-controller:
+          dc-slice-provider: DC Telefonica
+          ip: 10.1.0.3
+          port: 10800
+        location: EUROPE.SPAIN
+        monitoring-parameters:
+          granularity-secs: 10
+          measurements-db-ip: <X>
+          measurements-db-port: <X>
+          metrics:
+          - metric:
+              name: PERCENT_CPU_UTILIZATION
+          - metric:
+              name: MEGABYTES_MEMORY_UTILIZATION
+          - metric:
+              name: TOTAL_BYTES_DISK_IN
+          - metric:
+              name: TOTAL_BYTES_DISK_OUT
+          - metric:
+              name: TOTAL_BYTES_NET_RX
+          - metric:
+              name: TOTAL_BYTES_NET_TX
+          tool: prometheus
+          type: all
+        slice-time-frame:
+          service-start-time:
+            '100919': 10 pm
+          service-stop-time:
+            '101019': 10 pm
+        type: EDGE
+    name: edge-dc-slice-spain
+- dc-slice-choices:
+    alternatives:
+    - dc-slice-part:
+        VIM:
+          host-count: 1
+          name: KUBERNETES
+          vdus:
+          - vdu:
+              description: Master node for CDN deployment
+              epa-attributes:
+                host-epa:
+                  cpu-architecture: X86_64
+                  cpu-number: 2
+                  host-image: undefined
+                  memory-mb: 4096
+                  os-properties:
+                    architecture: x86_64
+                    distribution: undefined
+                    type: linux
+                    version: undefined
+                  storage-gb: 10
+              hosting: SHARED
+              id: k8s-master
+              instance-count: 1
+              name: k8s-master
+              vdu-image: k8s-cdn-template
+          - vdu:
+              description: Compute node for CDN deployment
+              epa-attributes:
+                host-epa:
+                  cpu-architecture: X86_64
+                  cpu-number: 2
+                  host-image: undefined
+                  memory-mb: 4096
+                  os-properties:
+                    architecture: x86_64
+                    distribution: undefined
+                    type: linux
+                    version: undefined
+                  storage-gb: 10
+              hosting: SHARED
+              id: k8s-node
+              instance-count: 1
+              name: k8s-node
+              vdu-image: k8s-cdn-template
+          version: undefined
+          vim-federated: false
+          vim-ref: undefined
+          vim-shared: false
+        cost:
+          model: COST_PER_PHYSICAL_MACHINE_PER_DAY
+          value-euros: 80
+        dc-slice-controller:
+          dc-slice-provider: DC UOM
+          ip: 195.251.209.100
+          port: 5000
+        location: EUROPE.GREECE
+        monitoring-parameters:
+          granularity-secs: 10
+          measurements-db-ip: <X>
+          measurements-db-port: <X>
+          metrics:
+          - metric:
+              name: PERCENT_CPU_UTILIZATION
+          - metric:
+              name: MEGABYTES_MEMORY_UTILIZATION
+          - metric:
+              name: TOTAL_BYTES_DISK_IN
+          - metric:
+              name: TOTAL_BYTES_DISK_OUT
+          - metric:
+              name: TOTAL_BYTES_NET_RX
+          - metric:
+              name: TOTAL_BYTES_NET_TX
+          tool: prometheus
+          type: all
+        slice-time-frame:
+          service-start-time:
+            '100919': 10 pm
+          service-stop-time:
+            '101019': 10 pm
+        type: EDGE
+    name: edge-dc-slice-greece
+- net-slice-choices:
+    alternatives:
+    - net-slice-part:
+        WIM:
+          name: VXLAN
+          version: undefined
+          wim-federated: false
+          wim-ref: undefined
+          wim-shared: true
+        cost:
+          model: COST_PER_LINK_PER_DAY
+          value-euros: 50
+        link-ends:
+          link-end1-ip: undefined
+          link-end2-ip: undefined
+        links:
+        - dc-part1: core-dc
+        - dc-part2: edge-dc-slice-spain
+        - requirements:
+            bandwidth-GB: 1
+        slice-time-frame:
+          service-start-time:
+            '100919': 10 pm
+          service-stop-time:
+            '101019': 10 pm
+        wan-slice-controller:
+          ip: 10.0.0.1
+          port: 3000
+          wan-slice-provider: WAN UNICAMP
+    name: dc-spain-to-dc-core
+- net-slice-choices:
+    alternatives:
+    - net-slice-part:
+        WIM:
+          name: VXLAN
+          version: undefined
+          wim-federated: false
+          wim-ref: undefined
+          wim-shared: true
+        cost:
+          model: COST_PER_LINK_PER_DAY
+          value-euros: 50
+        link-ends:
+          link-end1-ip: undefined
+          link-end2-ip: undefined
+        links:
+        - dc-part1: core-dc
+        - dc-part2: edge-dc-slice-greece
+        - requirements:
+            bandwidth-GB: 1
+        slice-time-frame:
+          service-start-time:
+            '100919': 10 pm
+          service-stop-time:
+            '101019': 10 pm
+        wan-slice-controller:
+          ip: 10.0.0.1
+          port: 3000
+          wan-slice-provider: WAN UNICAMP
+    name: dc-greece-to-dc-core
+- net-slice-choices:
+    alternatives:
+    - net-slice-part:
+        WIM:
+          name: VXLAN
+          version: undefined
+          wim-federated: false
+          wim-ref: undefined
+          wim-shared: true
+        cost:
+          model: COST_PER_LINK_PER_DAY
+          value-euros: 50
+        link-ends:
+          link-end1-ip: undefined
+          link-end2-ip: undefined
+        links:
+        - dc-part1: core-dc
+        - dc-part2: edge-dc-slice-brazil
+        - requirements:
+            bandwidth-GB: 1
+        slice-time-frame:
+          service-start-time:
+            '100919': 10 pm
+          service-stop-time:
+            '101019': 10 pm
+        wan-slice-controller:
+          ip: 10.0.0.1
+          port: 3000
+          wan-slice-provider: WAN UNICAMP
+    name: dc-brazil-to-dc-core
+

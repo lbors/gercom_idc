@@ -1,0 +1,91 @@
+{
+    "dnsStats" : {
+        "config" : {
+           "interval" : 0,
+           "mode" : 3
+        }
+    },
+    "dnsData" : {
+        "config" : {
+            "algorithm" : 1,
+            "ratio" : {
+                "greece": 1,
+                "spain": 1,
+                "brazil": 1,
+                "core":1
+            },
+            "globalMode" : 2,
+            "geoLocation" : {
+                "greece" : [
+                    "172.17.0.3"
+                ],                                        
+                "spain" : [
+                    "172.17.0.4"
+                ],                                        
+                "brazil" : [
+                    "172.17.0.2"
+                ]                                        
+            }
+        },
+        "dnsEntries" : [
+            {
+                "domain": "core.swn.uom.gr",
+                "config" : {
+                    "algorithm" : 1
+                },
+                "records": {
+                    "core" : [
+                    ]
+                }
+            },
+            {
+                "domain": "brazil.swn.uom.gr",
+                "config" : {
+                    "algorithm" : 1
+                },
+                "geoLocation" : {
+                    "brazil" : [
+                    ]
+                },
+                "records": {
+                    "brazil" : [
+                    ],
+                    "core" : [
+                    ]
+                }
+            },
+            {
+                "domain": "greece.swn.uom.gr",
+                "config" : {
+                    "algorithm" : 1
+                },
+                "geoLocation" : {
+                    "greece" : [
+                    ]
+                },
+                "records": {
+                    "greece" : [
+                    ],
+                    "core" : [
+                    ]
+                }
+            },
+            {
+                "domain": "spain.swn.uom.gr",
+                "config" : {
+                    "algorithm" : 1
+                },
+                "geoLocation" : {
+                    "spain" : [
+                    ]
+                },
+                "records": {
+                    "spain" : [
+                    ],
+                    "core" : [
+                    ]
+                }
+            }
+        ]
+    }
+}

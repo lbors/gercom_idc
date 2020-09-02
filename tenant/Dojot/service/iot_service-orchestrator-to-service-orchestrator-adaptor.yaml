@@ -1,0 +1,30 @@
+slices:
+   sliced:
+      id: IoTService_sliced
+      slice-parts:     
+        - dc-slice-part:
+          name: dc-slice1
+          vdus:
+            - vdu:
+              name: vm-master-name-dc-slice1
+              VIM: Kubernetes
+              namespace: dojot
+              commands: 
+                - git clone https://github.com/LABORA-INF-UFG/NECOS-ansible-dojot-core.git
+                - export DEBIAN_FRONTEND=noninteractive; apt-get update; apt install -y python-pip
+                - pip install -r NECOS-ansible-dojot-core/requirements.txt
+                - sed -i "s/REPLACE/10.126.1.32/" NECOS-ansible-dojot-core/inventories/example_local/group_vars/dojot-k8s/dojot.yaml
+                - ansible-playbook -c local -b -i NECOS-ansible-dojot-core/inventories/example_local/ NECOS-ansible-dojot-core/deploy.yaml > dojot.log
+        - dc-slice-part:
+          name: dc-slice2
+          vdus:
+            - vdu:
+              name: vm-master-name-dc-slice2
+              VIM: Kubernetes
+              namespace: dojot
+              commands: 
+                - git clone https://github.com/LABORA-INF-UFG/NECOS-ansible-dojot-edge.git
+                - export DEBIAN_FRONTEND=noninteractive; apt-get update; apt install -y python-pip
+                - pip install -r NECOS-ansible-dojot-edge/requirements.txt
+                - sed -i "s/REPLACE/10.126.1.187/" NECOS-ansible-dojot-edge/inventories/example_local/group_vars/dojot-k8s/dojot.yaml
+                - ansible-playbook -c local -b -i NECOS-ansible-dojot-edge/inventories/example_local/ NECOS-ansible-dojot-edge/deploy.yaml > dojot.log

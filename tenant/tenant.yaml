@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+
+  slice-activator:
+    build:
+      context: slice-activator/.
+      dockerfile: Dockerfile
+    container_name: slice_activator
+    ports:
+      - 5001:5001
+
+  service-orchestrator:
+    build:
+      context: service-orchestrator/.
+      dockerfile: Dockerfile
+    container_name: service-orchestrator
+    ports:
+      - 5010:5010

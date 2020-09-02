@@ -1,0 +1,49 @@
+slices:
+  sliced:
+    id: IoTService_sliced
+    slice-parts:     
+    - dc-slice-part:
+      name: dc-slice1
+      vdus:
+      - vdu:
+        name: vm-name-master-slice1
+        VIM: Kubernetes
+        namespace: dojot
+        commands: 
+        - git clone https://github.com/LABORA-INF-UFG/NECOS-ansible-dojot-core.git
+        - export DEBIAN_FRONTEND=noninteractive; apt-get update; apt install -y python-pip
+        - pip install -r NECOS-ansible-dojot-core/requirements.txt
+        - sed -i "s/REPLACE/master-core-ip/" NECOS-ansible-dojot-core/inventories/example_local/group_vars/dojot-k8s/dojot.yaml
+        - ansible-playbook -c local -b -i NECOS-ansible-dojot-core/inventories/example_local/ NECOS-ansible-dojot-core/deploy.yaml > dojot.log
+    - dc-slice-part:
+      name: dc-slice2
+      vdus:
+      - vdu:
+        name: vm-name-master-slice2
+        VIM: Kubernetes
+        namespace: dojot
+        commands: 
+        - git clone https://github.com/LABORA-INF-UFG/NECOS-ansible-dojot-edge.git
+        - export DEBIAN_FRONTEND=noninteractive; apt-get update; apt install -y python-pip
+        - pip install -r NECOS-ansible-dojot-edge/requirements.txt
+        - sed -i "s/REPLACE/master-core-ip/" NECOS-ansible-dojot-edge/inventories/example_local/group_vars/dojot-k8s/dojot.yaml
+        - ansible-playbook -c local -b -i NECOS-ansible-dojot-edge/inventories/example_local/ NECOS-ansible-dojot-edge/deploy.yaml > dojot.log
+      elasticity:
+      - rule:
+          name: IoT_Agent_CPU_overhead
+          type: upgrade
+          value: 80
+          unit: pct
+          operator: '>'
+          trigger: # time-window (during x seconds over threshold) or points (quantity of consecutive points over threshold)
+            points: 3
+          metric-collector: # metrics that the rule takes into account
+            metric-name: PERCENT_CPU_UTILIZATION
+            node-type: worker
+            granularity: default # default used the current granularity at IMA. Pair 'value,unit' set a different granularity
+          post-deployment:
+            - action:
+                description: Increment the number of replicas of IoT-Agent containers, so the new worker can host the new replica
+                node: master # this node will run the following commands. Options: new-node (the node to deploy), master (the master node of the cluster).
+                commands: # increments in 1 the number of replicas of IoT-Agents
+                - REPLICAS="$(kubectl get pods -l name=iotagent-mosca -n dojot --no-headers | wc -l)"; kubectl scale deployment iotagent-mosca --replicas $((REPLICAS+=1)) -n dojot

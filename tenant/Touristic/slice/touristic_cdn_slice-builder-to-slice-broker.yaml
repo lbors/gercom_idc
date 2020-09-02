@@ -1,0 +1,421 @@
+slices:
+   sliced:
+      id: TouristicCDN_sliced
+      name: TouristicCDN_sliced
+      short-name: TouristicCDN_sliced
+      description: Slicing for touristic CDN
+      vendor: MTC
+      version: '1.0'
+
+      # logo of slice for visualization purposes
+      logo: touristic-cdn.png
+
+      slice-constraints:
+         geographic: [BRAZIL, EUROPE]
+         dc-slice-parts: 1  # Could be a constraint on values.
+         edge-slice-parts: 3
+         net-slice-parts: 3
+
+      slice-requirements:
+         elasticity: false
+         reliability:
+            description: reliability level
+            enabled: true
+            value: none   # {path-backup, logical-backup, physical-backup\}
+
+      slice-lifecycle:
+         description: lifecycle status
+         status: construction    # {modification, activation, deletion\}
+
+      cost:
+         dc-model:
+            model: COST_PER_PHYSICAL_MACHINE_PER_DAY
+            value-euros: {lower_than_equal: 10}
+         net-model:
+            model: COST_PER_LINK_PER_DAY
+            value-euros: {lower_than_equal: 50}
+
+      slice-timeframe:
+         service-start-time: {100919: 10 pm}
+         service-stop-time: {101019: 10 pm}
+
+
+      slice-parts:
+         # at least one slice component and one VDU should be defined
+         - dc-slice-part:
+             name: core-dc
+             type: DC
+             location: Brazil	
+             dc-slice-controller:
+                 dc-slice-provider: undefined
+                 ip: undefined
+                 port: undefined
+
+             monitoring-parameters:
+                tool: netdata
+                measurements-db-ip: <X>
+                measurements-db-port: <X>
+                granularity-secs: 10
+                type: host
+                metrics:
+                   - metric:
+                        name: PERCENT_CPU_UTILIZATION        
+                   - metric:
+                        name: MEGABYTES_MEMORY_UTILIZATION        
+                   - metric:
+                        name: TOTAL_BYTES_DISK_IN        
+                   - metric:
+                        name: TOTAL_BYTES_DISK_OUT 
+                   - metric:
+                        name: TOTAL_BYTES_NET_RX 
+                   - metric:
+                        name: TOTAL_BYTES_NET_TX 
+
+             VIM:
+                 name: xen-vim
+                 version: XEN-SERVER
+                 vim-shared: false
+                 vim-federated: false
+                 vim-ref: undefined
+                 host-count: 1
+                 vdus:
+                     - vdu:
+                         id: core_vm
+                         name: core_vm
+                         description: load balancer and content services
+                         instance-count: 1
+                         hosting: SHARED
+                         vdu-image: 'core_vm'
+
+                         # does not require a flavor
+                         epa-attributes:
+                            host-epa:
+                                cpu-architecture: PREFER_X86_64
+                                cpu-number: 4
+                                storage-gb: 30
+                                memory-mb: 8192
+                                os-properties:
+                                    # host Operating System image properties
+                                    architecture: x86_64
+                                    type: linux
+                                    distribution: ubuntu
+                                    version: 18.04
+                                host-image: indefined
+
+         - dc-slice-part:
+             name: edge-dc-slice-spain
+             type: EDGE
+             location: Spain	
+             dc-slice-controller:
+                 dc-slice-provider: undefined
+                 ip: undefined
+                 port: undefined
+
+             monitoring-parameters:
+                tool: prometheus
+                measurements-db-ip: <X>
+                measurements-db-port: <X>
+                granularity-secs: 10
+                type: <container/host/all>
+                metrics:
+                   - metric:
+                        name: PERCENT_CPU_UTILIZATION        
+                   - metric:
+                        name: MEGABYTES_MEMORY_UTILIZATION        
+                   - metric:
+                        name: TOTAL_BYTES_DISK_IN        
+                   - metric:
+                        name: TOTAL_BYTES_DISK_OUT 
+                   - metric:
+                        name: TOTAL_BYTES_NET_RX 
+                   - metric:
+                        name: TOTAL_BYTES_NET_TX 
+            
+             VIM:
+                 name: KUBERNETES 
+                 version: undefined 
+                 vim-shared: false
+                 vim-federated: false
+                 vim-ref: undefined
+                 host-count: 1
+                 vdus:
+                     - vdu:
+                         id: content_servers_spain
+                         name: content_servers_spain
+                         description: content servers for CDN deployment
+                         instance-count: 1
+                         hosting: SHARED
+                         vdu-image: 'swnuom/touristic-services-spain'
+
+                         # does not require a flavor
+                         epa-attributes:
+                            host-epa:
+                                cpu-architecture: PREFER_X86_64
+                                cpu-number: 2
+                                storage-gb: 10
+                                memory-mb: 4096
+                                os-properties:
+                                    # host Operating System image properties
+                                    architecture: x86_64
+                                    type: linux
+                                    distribution: undefined
+                                    version: undefined
+                                host-image: undefined
+                     - vdu:
+                         id: load_testing_tool_spain
+                         name: load_testing_tool_spain
+                         description: load testing tool for CDN deployment
+                         instance-count: 1
+                         hosting: SHARED 
+                         vdu-image: 'justb4/jmeter'
+
+                         # does not require a flavor
+                         epa-attributes:
+                            host-epa:
+                                cpu-architecture: PREFER_X86_64
+                                cpu-number: 2
+                                storage-gb: 10
+                                memory-mb: 4096
+                                os-properties:
+                                    # host Operating System image properties
+                                    architecture: x86_64
+                                    type: linux
+                                    distribution: undefined
+                                    version: undefined
+                                host-image: undefined
+
+         - dc-slice-part:
+             name: edge-dc-slice-greece
+             type: EDGE
+             location: Greece	
+             dc-slice-controller:
+                 dc-slice-provider: undefined
+                 ip: undefined
+                 port: undefined
+
+             monitoring-parameters:
+                tool: prometheus
+                measurements-db-ip: <X>
+                measurements-db-port: <X>
+                granularity-secs: 10
+                type: <container/host/all>
+                metrics:
+                   - metric:
+                        name: PERCENT_CPU_UTILIZATION        
+                   - metric:
+                        name: MEGABYTES_MEMORY_UTILIZATION        
+                   - metric:
+                        name: TOTAL_BYTES_DISK_IN        
+                   - metric:
+                        name: TOTAL_BYTES_DISK_OUT 
+                   - metric:
+                        name: TOTAL_BYTES_NET_RX 
+                   - metric:
+                        name: TOTAL_BYTES_NET_TX 
+            
+             VIM:
+                 name: KUBERNETES 
+                 version: undefined 
+                 vim-shared: false
+                 vim-federated: false
+                 vim-ref: undefined
+                 host-count: 1
+                 vdus:
+                     - vdu:
+                         id: content_servers_greece
+                         name: content_servers_greece
+                         description: content servers for CDN deployment
+                         instance-count: 1
+                         hosting: SHARED
+                         vdu-image: 'swnuom/touristic-services-greece'
+
+                         # does not require a flavor
+                         epa-attributes:
+                            host-epa:
+                                cpu-architecture: PREFER_X86_64
+                                cpu-number: 2
+                                storage-gb: 10
+                                memory-mb: 4096
+                                os-properties:
+                                    # host Operating System image properties
+                                    architecture: x86_64
+                                    type: linux
+                                    distribution: undefined
+                                    version: undefined
+                                host-image: undefined
+                     - vdu:
+                         id: load_testing_tool_greece
+                         name: load_testing_tool_greece
+                         description: load testing tool for CDN deployment
+                         instance-count: 1
+                         hosting: SHARED 
+                         vdu-image: 'justb4/jmeter'
+
+                         # does not require a flavor
+                         epa-attributes:
+                            host-epa:
+                                cpu-architecture: PREFER_X86_64
+                                cpu-number: 2
+                                storage-gb: 10
+                                memory-mb: 4096
+                                os-properties:
+                                    # host Operating System image properties
+                                    architecture: x86_64
+                                    type: linux
+                                    distribution: undefined
+                                    version: undefined
+                                host-image: undefined
+
+         - dc-slice-part:
+             name: edge-dc-slice-brazil
+             type: EDGE
+             location: Brazil	
+             dc-slice-controller:
+                 dc-slice-provider: undefined
+                 ip: undefined
+                 port: undefined
+
+             monitoring-parameters:
+                tool: prometheus
+                measurements-db-ip: <X>
+                measurements-db-port: <X>
+                granularity-secs: 10
+                type: <container/host/all>
+                metrics:
+                   - metric:
+                        name: PERCENT_CPU_UTILIZATION        
+                   - metric:
+                        name: MEGABYTES_MEMORY_UTILIZATION        
+                   - metric:
+                        name: TOTAL_BYTES_DISK_IN        
+                   - metric:
+                        name: TOTAL_BYTES_DISK_OUT 
+                   - metric:
+                        name: TOTAL_BYTES_NET_RX 
+                   - metric:
+                        name: TOTAL_BYTES_NET_TX 
+            
+             VIM:
+                 name: KUBERNETES 
+                 version: undefined 
+                 vim-shared: false
+                 vim-federated: false
+                 vim-ref: undefined
+                 host-count: 1
+                 vdus:
+                     - vdu:
+                         id: content_servers_brazil
+                         name: content_servers_brazil
+                         description: content servers for CDN deployment
+                         instance-count: 1
+                         hosting: SHARED
+                         vdu-image: 'swnuom/touristic-services-brazil'
+
+                         # does not require a flavor
+                         epa-attributes:
+                            host-epa:
+                                cpu-architecture: PREFER_X86_64
+                                cpu-number: 2
+                                storage-gb: 10
+                                memory-mb: 4096
+                                os-properties:
+                                    # host Operating System image properties
+                                    architecture: x86_64
+                                    type: linux
+                                    distribution: undefined
+                                    version: undefined
+                                host-image: undefined
+                     - vdu:
+                         id: load_testing_tool_brazil
+                         name: load_testing_tool_brazil
+                         description: load testing tool for CDN deployment
+                         instance-count: 1
+                         hosting: SHARED 
+                         vdu-image: 'justb4/jmeter'
+
+                         # does not require a flavor
+                         epa-attributes:
+                            host-epa:
+                                cpu-architecture: PREFER_X86_64
+                                cpu-number: 2
+                                storage-gb: 10
+                                memory-mb: 4096
+                                os-properties:
+                                    # host Operating System image properties
+                                    architecture: x86_64
+                                    type: linux
+                                    distribution: undefined
+                                    version: undefined
+                                host-image: undefined
+
+         - net-slice-part:
+              name: dc-spain-to-dc-core
+              wan-slice-controller:
+                  wan-slice-provider: undefined
+                  ip: undefined
+                  port: undefined undefined
+
+              WIM: 
+                 name: VXLAN 
+                 version: undefined 
+                 wim-shared: true
+                 wim-federated: false
+                 wim-ref: undefined
+
+              links:
+                 - dc-part1: core-dc-slice
+                 - dc-part2: edge-dc-slice-spain
+                 - requirements:
+                      bandwidth-GB: 1
+           
+              link-ends:
+                 link-end1-ip: undefined
+                 link-end2-ip: undefined
+
+         - net-slice-part:
+              name: dc-greece-to-dc-core
+              wan-slice-controller:
+                  wan-slice-provider: undefined
+                  ip: undefined
+                  port: undefined undefined
+
+              WIM: 
+                 name: VXLAN 
+                 version: undefined 
+                 wim-shared: true
+                 wim-federated: false
+                 wim-ref: undefined
+
+              links:
+                 - dc-part1: core-dc-slice
+                 - dc-part2: edge-dc-slice-greece
+                 - requirements:
+                      bandwidth-GB: 1
+           
+              link-ends:
+                 link-end1-ip: undefined
+                 link-end2-ip: undefined
+
+         - net-slice-part:
+              name: dc-brazil-to-dc-core
+              wan-slice-controller:
+                  wan-slice-provider: undefined
+                  ip: undefined
+                  port: undefined undefined
+
+              WIM: 
+                 name: VXLAN 
+                 version: undefined 
+                 wim-shared: true
+                 wim-federated: false
+                 wim-ref: undefined
+
+              links:
+                 - dc-part1: core-dc-slice
+                 - dc-part2: edge-dc-slice-brazil
+                 - requirements:
+                      bandwidth-GB: 1
+           
+              link-ends:
+                 link-end1-ip: undefined
+                 link-end2-ip: undefined

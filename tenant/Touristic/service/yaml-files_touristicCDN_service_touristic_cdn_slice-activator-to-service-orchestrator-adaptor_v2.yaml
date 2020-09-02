@@ -1,0 +1,66 @@
+---
+slices:
+   sliced:
+      id: TouristicCDN
+      slice-parts:     
+         - dc-slice-part:
+             name: core-dc
+
+             vdus:
+                 - vdu:
+                     id: core_vm
+                     name: core_vm
+                     commands: 
+                        - "./start_services"
+                        - "cd swn-dns && echo necos09 | sudo -S node app-dns.js"
+                        - "echo necos09 | sudo -S service grafana-server start"
+
+      slice-parts:     
+         - dc-slice-part:
+             name: edge-dc-slice-spain
+             vdus:
+                 - vdu:
+                     id: content_servers_spain
+                     name: content_servers_spain
+                     commands:
+
+                 - vdu:
+                     id: load_testing_tool_spain
+                     name: load_testing_tool_spain
+                     commands: 
+                        - "echo nameserver {Core's dc ip} > /etc/resolv.conf"
+                        - "docker run -p 8082:8082 -p 80:80 swnuom/touristic-services-spain"
+
+
+      slice-parts:     
+         - dc-slice-part:
+             name: edge-dc-slice-greece
+             vdus:
+                 - vdu:
+                     id: content_servers_greece
+                     name: content_servers_greece
+                     commands: 
+                 - vdu:
+                     id: load_testing_tool_greece
+                     name: load_testing_tool_greece
+                     commands: 
+                        - "echo nameserver {Core's dc ip} > /etc/resolv.conf"
+                        - "docker run -p 8081:8081 -p 80:80 swnuom/touristic-services-greece"
+                        - "git clone https://github.com/SWNRG/benchmarking.git && cd benchmarking/jmeter_edge && ./test.sh"
+                        - "cd benchmarking/jmeter_core && ./test.sh"
+
+      slice-parts:     
+         - dc-slice-part:
+             name: edge-dc-slice-brazil
+             vdus:
+                 - vdu:
+                     id: content_servers_brazil
+                     name: content_servers_brazil
+                     commands: 
+                 - vdu:
+                     id: load_testing_tool_brazil
+                     name: load_testing_tool_brazil
+                     commands: 
+                        - "echo nameserver {Core's dc ip} > /etc/resolv.conf"
+                        - "docker run -p 8081:8081 -p 80:80 swnuom/touristic-services-brazil"
+

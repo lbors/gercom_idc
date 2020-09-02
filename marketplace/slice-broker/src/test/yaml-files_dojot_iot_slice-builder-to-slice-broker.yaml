@@ -1,0 +1,288 @@
+---
+slices:
+    slice:
+        id: IoTService_sliced
+        name: IoTService_sliced
+        short-name: IoTService_sliced
+        description: Slicing for Elastic IoT Service
+        vendor: dojot
+        version: '1.0'
+        # logo of slice for visualization purposes
+        logo: dojot.png
+
+        slice-constraints:
+            geographic: [BRAZIL, EUROPE]
+            dc-slice-parts: 1  # Could be a constraint on values.
+            edge-slice-parts: 2
+            net-slice-parts: 2
+
+        slice-requirements:
+            elasticity: true
+            reliability:
+            description: reliability level
+            enabled: true
+            value: none   # {path-backup, logical-backup, physical-backup\}
+
+        slice-lifecycle:
+            description: lifecycle status
+            status: construction    # {modification, activation, deletion\}
+
+        cost:
+            dc-model:
+                model: COST_PER_PHYSICAL_MACHINE_PER_DAY
+                value-euros: {lower_than_equal: 10}
+            net-model:
+                model: COST_PER_LINK_PER_DAY
+                value-euros: {lower_than_equal: 50}
+
+        slice-timeframe:
+            service-start-time: 100919
+            service-stop-time: 101019
+        
+        # at least one slice component and one VDU should be defined
+        slice-parte:
+            - dc-slice-part:
+                name: dc-slice1
+                type: DC
+                slice-constraints:
+                    geographic: BRAZIL
+                dc-slice-controller:
+                    dc-slice-provider: undefined
+                    ip: undefined
+                    port: undefined
+                VIM:
+                    name: KUBERNETES 
+                    version: undefined 
+                    vim-shared: false
+                    vim-federated: false
+                    vim-ref: undefined
+                    host-count: 1
+                vdus:
+                    - vdu:
+                        id: k8s-master
+                        name: k8s-master
+                        description: Master (controller) of kubernetes cluster
+                        instance-count: 1
+                        hosting: SHARED
+                        vdu-image: 'k8s-master'
+
+                        # does not require a flavor
+                        epa-attributes:
+                            host-epa:
+                                cpu-architecture: PREFER_X86_64
+                                cpu-number: 4
+                                cpu-model: PREFER_CORE2DUO
+                                cpu-vendor: PREFER_INTEL
+                                storage-gb: 100
+                                memory-mb: {greater_or_equal: 8192}
+                                os-properties:
+                                    # host Operating System image properties
+                                    architecture: {equal: x86_64}
+                                    type: linux
+                                    distribution: ubuntu
+                                    version: 18.04
+                                host-image: indefined
+                    - vdu:
+                        id: k8s-node
+                        name: k8s-node
+                        description: Compute node of kubernetes cluster
+                        instance-count: 4
+                        hosting: SHARED 
+                        vdu-image: 'k8s-node'
+                        
+                        # does not require a flavor
+                        epa-attributes:
+                            host-epa:
+                                cpu-architecture: PREFER_X86_64
+                                cpu-number: 8
+                                cpu-model: PREFER_CORE2DUO
+                                cpu-vendor: PREFER_INTEL
+                                storage-gb: 500
+                                memory-mb: {greater_or_equal: 32768}
+                                os-properties:
+                                    # host Operating System image properties
+                                    architecture: {equal: x86_64}
+                                    type: linux
+                                    distribution: ubuntu
+                                    version: 18.04
+                                host-image: undefined
+                                    
+                        requirements:
+                            bandwidth-GB: 1
+
+            - dc-slice-part:
+                name: dc-slice2
+                type: EDGE
+                slice-constraints:
+                    geographic: BRAZIL
+                dc-slice-controller:
+                    dc-slice-provider: undefined
+                    ip: undefined
+                    port: undefined
+                VIM:
+                    name: KUBERNETES 
+                    version: undefined 
+                    vim-shared: false
+                    vim-federated: false
+                    vim-ref: undefined
+                    host-count: 1
+                vdus:
+                    - vdu:
+                        id: k8s-master
+                        name: k8s-master
+                        description: Master (controller) of kubernetes cluster
+                        instance-count: 1
+                        hosting: SHARED
+                        vdu-image: 'k8s-master'
+
+                        # does not require a flavor
+                        epa-attributes:
+                            host-epa:
+                                cpu-architecture: PREFER_X86_64
+                                cpu-number: 4
+                                cpu-model: PREFER_CORE2DUO
+                                cpu-vendor: PREFER_INTEL
+                                storage-gb: 100
+                                memory-mb: {greater_or_equal: 8192}
+                                os-properties:
+                                    # host Operating System image properties
+                                    architecture: {equal: x86_64}
+                                    type: linux
+                                    distribution: ubuntu
+                                    version: 18.04
+                                host-image: indefined
+                    - vdu:
+                        id: k8s-node
+                        name: k8s-node
+                        description: Compute node of kubernetes cluster
+                        instance-count: 1
+                        hosting: SHARED 
+                        vdu-image: 'k8s-node'
+
+                        # does not require a flavor
+                        epa-attributes:
+                            host-epa:
+                                cpu-architecture: PREFER_X86_64
+                                cpu-number: 4
+                                cpu-model: PREFER_CORE2DUO
+                                cpu-vendor: PREFER_INTEL
+                                storage-gb: 500
+                                memory-mb: {greater_or_equal: 32768}
+                                os-properties:
+                                    # host Operating System image properties
+                                    architecture: {equal: x86_64}
+                                    type: linux
+                                    distribution: ubuntu
+                                    version: 18.04
+                                host-image: undefined
+            - dc-slice-part:
+                name: dc-slice3
+                type: EDGE
+                slice-constraints:
+                    geographic: EUROPE
+                dc-slice-controller:
+                    dc-slice-provider: undefined
+                    ip: undefined
+                    port: undefined
+                VIM:
+                    name: KUBERNETES 
+                    version: undefined 
+                    vim-shared: false
+                    vim-federated: false
+                    vim-ref: undefined
+                    host-count: 1
+                vdus:
+                    - vdu:
+                        id: k8s-master
+                        name: k8s-master
+                        description: Master (controller) of kubernetes cluster
+                        instance-count: 1
+                        hosting: SHARED
+                        vdu-image: 'k8s-master'
+
+                        # does not require a flavor
+                        epa-attributes:
+                            host-epa:
+                                cpu-architecture: PREFER_X86_64
+                                cpu-number: 4
+                                cpu-model: PREFER_CORE2DUO
+                                cpu-vendor: PREFER_INTEL
+                                storage-gb: 100
+                                memory-mb: {greater_or_equal: 8192}
+                                os-properties:
+                                    # host Operating System image properties
+                                    architecture: {equal: x86_64}
+                                    type: linux
+                                    distribution: ubuntu
+                                    version: 18.04
+                                host-image: indefined
+                    - vdu:
+                        id: k8s-node
+                        name: k8s-node
+                        description: Compute node of kubernetes cluster
+                        instance-count: 1
+                        hosting: SHARED 
+                        vdu-image: 'k8s-node'
+
+                        # does not require a flavor
+                        epa-attributes:
+                            host-epa:
+                                cpu-architecture: PREFER_X86_64
+                                cpu-number: 4
+                                cpu-model: PREFER_CORE2DUO
+                                cpu-vendor: PREFER_INTEL
+                                storage-gb: 500
+                                memory-mb: {greater_or_equal: 32768}
+                                os-properties:
+                                    # host Operating System image properties
+                                    architecture: {equal: x86_64}
+                                    type: linux
+                                    distribution: ubuntu
+                                    version: 18.04
+                                host-image: undefined
+
+            - net-slice-part:
+                name: pop-dc-slice1-to-pop-dc-slice2
+                wan-slice-controller:
+                    wan-slice-provider: undefined
+                    ip: undefined
+                    port: undefined undefined
+
+                WIM: 
+                    name: VXLAN 
+                    version: undefined 
+                    wim-shared: true
+                    wim-federated: false
+                    wim-ref: undefined
+
+                links:
+                    - dc-part1: dc-slice1
+                    - dc-part2: dc-slice2
+            
+                link-ends:
+                    link-end1-ip: undefined
+                    link-end2-ip: undefined
+                    
+            - net-slice-part:
+                name: pop-dc-slice1-to-pop-dc-slice3
+                wan-slice-controller:
+                    wan-slice-provider: undefined
+                    ip: undefined
+                    port: undefined undefined
+
+                WIM: 
+                    name: VXLAN 
+                    version: undefined 
+                    wim-shared: true
+                    wim-federated: false
+                    wim-ref: undefined
+
+                links:
+                    - dc-part1: dc-slice1
+                    - dc-part2: dc-slice3
+            
+                link-ends:
+                    link-end1-ip: undefined
+                    link-end2-ip: undefined
+         
+

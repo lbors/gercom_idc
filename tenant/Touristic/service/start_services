@@ -1,0 +1,7 @@
+#!/bin/bash
+
+nohup ./video_servers/vlcVideoServerSpain >/dev/null 2>&1 &
+nohup ./video_servers/vlcVideoServerGreece >/dev/null 2>&1 &
+nohup ./video_servers/vlcVideoServerBrazil >/dev/null 2>&1 &
+ echo necos09 | sudo -S service grafana-server start &
+ cd swn-dns && nohup echo necos09 | sudo -S node app-dns.js >/dev/null 2>&1

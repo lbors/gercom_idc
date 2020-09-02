@@ -1,0 +1,134 @@
+Marketplace
+    Slice Broker: 
+        IP_PORTA = 10.126.1.146:8000
+        Mongo = 27017
+
+Central DC
+    DC-Slice-Controller: 5000
+        OVSDB_ADDR = tcp:10.126.1.32:6640
+        xen_host = 10.126.1.32
+        xen_user = gercom
+        xen_port = 22
+        server_public_ip = 10.126.1.32
+        server_public_port = 22
+    
+    WAN-Slice-Controller: 3030
+        OVSDB_ADDR = 'tcp:10.126.1.32:6640'
+        LOCAL_IP = "10.126.1.32"
+        REMOTE_ADDRESS_MAPPING = {
+        #  [server_public_ip : xen_host]
+            "10.126.1.32" : "10.126.1.32"
+        }
+    
+    Slice Agent: 8001
+        BROKER_IP_PORT = "10.126.1.146:8000"
+        DC_TYPE = "DC"
+        dc_slice_provider = "DC GERCOM"
+        dc_ip = "10.126.1.32"
+        dc_port = 5000
+        wan_slice_provider = "WAN GERCOM"
+        wan_ip = "10.126.1.32"
+        wan_port = 3030
+
+        FIRST_LOCAL_RESOURCES_DC = {"_id": dc_id,
+            # "model": "CORE2DUO",
+            "architecture": "X86_64",
+            "vendor": "INTEL",
+            "number": 30000000,
+            "storage_gb": 1978,
+            "memory_mb": 62741
+        }
+
+IDC
+    DC-Slice-Controller: 5000
+        OVSDB_ADDR = tcp:10.126.1.187:6640
+        xen_host = 10.126.1.187
+        xen_user = necos
+        xen_port = 22
+        server_public_ip = 10.126.1.187
+        server_public_port = 22
+    
+    WAN-Slice-Controller: 3030
+        OVSDB_ADDR = 'tcp:10.126.1.187:6640'
+        LOCAL_IP = "10.126.1.187"
+        REMOTE_ADDRESS_MAPPING = {
+        #  [server_public_ip : xen_host]
+            "10.126.1.187" : "10.126.1.187"
+        }
+    
+    Slice Agent: 8001
+        BROKER_IP_PORT = "10.126.1.146:8000"
+        DC_TYPE = "EDGE"
+        dc_slice_provider = "IDC"
+        dc_ip = "10.126.1.187"
+        dc_port = 5000
+        wan_slice_provider = "WAN IDC"
+        wan_ip = "10.126.1.187"
+        wan_port = 3030
+
+        FIRST_LOCAL_RESOURCES_DC = {"_id": dc_id,
+            # "model": "CORE2DUO",
+            "architecture": "X86_64",
+            "vendor": "INTEL",
+            "number": 30000000,
+            "storage_gb": 295,
+            "memory_mb": 1700
+        }
+
+WAN Slice Controller Master: 4000
+    AGENTS = {
+        2 : {
+           "agent_address" : "10.126.1.32",
+           "agent_port" : 3030,
+           "description" : "gercom wan agent",
+           "tunnel_address" : "",
+       },
+
+        4 : {
+        "agent_address" : "10.126.1.187",
+        "agent_port" : 3030,
+        "description" : "idc wan agent",
+        "tunnel_address" : "",
+        },
+    }
+
+
+Slice Provider 10.126.1.146
+    IMA-Management: 5001
+        em 'Slice Provider/IMA-management/code/adapter_ssh.py'
+            ssh_port = 22
+            ssh_ip = '10.126.1.146'
+            ssh_user = 'sliceprovider'
+            ssh_pass = 'gercom'
+            master_ip = '10.126.1.146'
+
+    IMA-Monitoring: 
+
+    Service Orquestrator Adaptor: 5011
+        SRO = "10.126.1.146:5005"
+        Comando a ser executado dentro do diretório:
+            sudo docker build -t soa:latest .
+            docker container run -it --name soa -p 5011:5011 soa:latest
+
+    Slice Builder: 5013:5003*
+        em setting.py
+            SLICE_BROKER = "10.126.1.146:8000"
+            SRO_IP = "10.126.1.146"
+
+        EM 'rest/slice_builder.py'
+            algumas mudanças para direcionar ao gercom e idc
+                linha 80, 212, 233, 237, 349, 402, 417, 474, 488, 493, 677
+
+    SSP: 5002*:5014
+        SPEC_PROCESSOR = "10.126.1.146:5002"
+        SLICE_BUILDER = "10.126.1.146:5003"
+        
+    SRO: 5005
+        ima_ip_addr = '10.126.1.146'
+        ima_mon_port = 4567
+        ima_mgm_port = 5001
+        influxdb_ip_addr = '10.126.1.146'
+        influxdb_port = 8086
+        builder_ip_addr = '10.126.1.146'
+        builder_port = 5003
+            

@@ -1,0 +1,80 @@
+slices:
+  sliced:
+    id: IoTService_sliced
+    slice-parts:     
+    - dc-slice-part:
+      name: dc-slice1
+      vdus:
+      - vdu:
+        name: vm-master-name-slice1
+        VIM: KUBERNETES
+        namespace: dojot
+        commands: # CPQD has to change, these commands deploy the dojot-core 
+        - git clone https://github.com/LABORA-INF-UFG/NECOS-ansible-dojot-core.git
+        - export DEBIAN_FRONTEND=noninteractive; apt-get update; apt install -y python-pip
+        - pip install -r NECOS-ansible-dojot-core/requirements.txt
+        - sed -i "s/REPLACE/master-core-ip/" NECOS-ansible-dojot-core/inventories/example_local/group_vars/dojot-k8s/dojot.yaml
+        - ansible-playbook -c local -b -i NECOS-ansible-dojot-core/inventories/example_local/ NECOS-ansible-dojot-core/deploy.yaml > dojot.log
+    - dc-slice-part:
+      name: dc-slice2
+      vdus:
+      - vdu:
+        name: vm-master-name-slice2
+        VIM: KUBERNETES
+        namespace: dojot
+        commands: # CPQD has to change, these commands deploy the dojot-edge-haproxy (first time) 
+        - git clone https://github.com/LABORA-INF-UFG/NECOS-ansible-dojot-edge-haproxy.git
+        - export DEBIAN_FRONTEND=noninteractive; apt-get update; apt install -y python-pip
+        - pip install -r NECOS-ansible-dojot-edge-haproxy/requirements.txt
+        - sed -i "s/REPLACE/master-core-ip/" NECOS-ansible-dojot-edge-haproxy/inventories/example_local/group_vars/dojot-k8s/dojot.yaml
+        - ansible-playbook -c local -b -i NECOS-ansible-dojot-edge-haproxy/inventories/example_local NECOS-ansible-dojot-edge-haproxy/deploy.yaml --extra-vars "haproxy_host=k8s-node-2-5-119" > dojot.log
+      elasticity:
+      - policy:
+          name: IoT_Agent_CPU_overhead
+          type: upgrade
+          value: 80
+          unit: pct
+          operator: '>'
+          trigger: # time-window (during x seconds over threshold) or points (quantity of consecutive points over threshold)
+            points: 3
+          metric-collector: # metrics that the policy takes into account
+            metric-name: PERCENT_CPU_UTILIZATION
+            node-type: worker
+            granularity: default # default use the current granularity at IMA. Pair 'value,unit' set a different granularity
+          deployment:
+            constraints:
+              vertical:
+                node-to-deploy: worker
+              horizontal:
+                location: AMERICA.BRAZIL
+          post-deployment:
+            timers:
+              service-redeployment: 60s # s: seconds, m: minutes, h:hour 
+              reactivate-elasticity: 30m
+            actions:
+              vertical:
+              - action:
+                  description: Increment the number of replicas of IoT-Agent containers, so the new worker can host the new replica
+                  slice-part: last-edge # Slice part where the actions will be executed. Options: <slice_part_name>, <first/last>-<edge/core>, new-slice-part (only available for horizontal)
+                  node: master # this node will run the following commands.
+                  commands: # Increments in 1 the number of replicas of IoT-Agents
+                  - REPLICAS="$(kubectl get pods -l name=iotagent-mosca -n dojot --no-headers | wc -l)"; kubectl scale deployment iotagent-mosca --replicas $((REPLICAS+=1)) -n dojot
+              horizontal:
+              - action:
+                  description: Deploys a new edge for dojot
+                  slice-part: new-slice-part
+                  node: master
+                  priority: 1 # Optional field. When is set, the lower the value, the more priority it has to execute.
+                  commands: # CPQD has to change, these commands deploy the dojot-edge (without ha-proxy)
+                  - git clone https://github.com/LABORA-INF-UFG/NECOS-ansible-dojot-edge.git
+                  - export DEBIAN_FRONTEND=noninteractive; apt-get update; apt install -y python-pip
+                  - pip install -r NECOS-ansible-dojot-edge/requirements.txt
+                  - sed -i "s/REPLACE/master-core-ip/" NECOS-ansible-dojot-edge/inventories/example_local/group_vars/dojot-k8s/dojot.yaml
+                  - ansible-playbook -c local -b -i NECOS-ansible-dojot-edge/inventories/example_local/ NECOS-ansible-dojot-edge/deploy.yaml > dojot.log
+              - action:
+                  description: Add a rule to the HA Proxy to balance the load between edge slice parts
+                  slice-part: first-edge
+                  node: master 
+                  commands: # Adds a rule to HA Proxy for load balancing between slice parts
+                  - NECOS-ansible-dojot-edge-haproxy/roles/haproxy/scripts/add_node.sh 10.10.4.1:30002
+ 

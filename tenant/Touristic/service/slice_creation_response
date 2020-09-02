@@ -1,0 +1,323 @@
+Response:
+  Response:
+    Response:
+      slices:
+        sliced:
+          cost:
+            dc-model:
+              model: COST_PER_PHYSICAL_MACHINE_PER_DAY
+              value-euros: {lower_than_equal: 10}
+            net-model:
+              model: COST_PER_LINK_PER_DAY
+              value-euros: {lower_than_equal: 50}
+          description: Slicing for touristic CDN
+          id: TouristicCDN_sliced
+          logo: touristic-cdn.png
+          name: TouristicCDN_sliced
+          short-name: TouristicCDN_sliced
+          slice-constraints:
+            dc-slice-parts: 1
+            edge-slice-parts: 3
+            geographic: [BRAZIL, EUROPE]
+            net-slice-parts: 3
+          slice-lifecycle: {description: lifecycle status, status: construction}
+          slice-parts:
+          - dc-slice-part:
+              VIM:
+                host-count: 1
+                name: xen-vim
+                vdus:
+                - vdu:
+                    description: load balancer and content services
+                    epa-attributes:
+                      host-epa:
+                        cpu-architecture: X86_64
+                        cpu-number: 4
+                        host-image: indefined
+                        memory-mb: 8192
+                        os-properties: {architecture: x86_64, distribution: ubuntu,
+                          type: linux, version: 16.04}
+                        storage-gb: 30
+                    hosting: SHARED
+                    id: core_vm_2
+                    instance-count: 1
+                    ip: 10.10.2.1
+                    name: core_vm
+                    type: null
+                    vdu-image: core-vm-template
+                version: XEN-SERVER
+                vim-credential: {password-ssh: necos09, user-ssh: root}
+                vim-federated: false
+                vim-ref: {ip-api: null, ip-ssh: 143.106.11.131, port-api: null, port-ssh: 22137}
+                vim-shared: false
+                vswitch: {bridge-name: br_137, type: openvswitch}
+              cost: {model: COST_PER_PHYSICAL_MACHINE_PER_DAY, value-euros: 30}
+              dc-slice-controller: {controller-id: '2', ip: necos.dca.fee.unicamp.br,
+                port: '5000'}
+              dc-slice-part-id: {slice-controller-id: '2', slice-part-uuid: '137'}
+              monitoring-parameters:
+                granularity-secs: 10
+                measurements-db-ip: 143.106.11.131
+                measurements-db-port: 20137
+                metrics:
+                - metric: {name: PERCENT_CPU_UTILIZATION}
+                - metric: {name: MEGABYTES_MEMORY_UTILIZATION}
+                - metric: {name: TOTAL_BYTES_DISK_IN}
+                - metric: {name: TOTAL_BYTES_DISK_OUT}
+                - metric: {name: TOTAL_BYTES_NET_RX}
+                - metric: {name: TOTAL_BYTES_NET_TX}
+                tool: netdata
+                type: host
+              name: core-dc
+              type: DC
+          - dc-slice-part:
+              VIM:
+                host-count: 1
+                name: KUBERNETES
+                vdus:
+                - vdu:
+                    description: Master node for CDN deployment
+                    epa-attributes:
+                      host-epa:
+                        cpu-architecture: X86_64
+                        cpu-number: 2
+                        host-image: undefined
+                        memory-mb: 4096
+                        os-properties: {architecture: x86_64, distribution: undefined,
+                          type: linux, version: undefined}
+                        storage-gb: 10
+                    hosting: SHARED
+                    id: k8s-master_4
+                    instance-count: 1
+                    ip: 10.10.4.1
+                    name: k8s-master
+                    type: master
+                    vdu-image: k8s-cdn-template
+                - vdu:
+                    description: Compute node for CDN deployment
+                    epa-attributes:
+                      host-epa:
+                        cpu-architecture: X86_64
+                        cpu-number: 2
+                        host-image: undefined
+                        memory-mb: 4096
+                        os-properties: {architecture: x86_64, distribution: undefined,
+                          type: linux, version: undefined}
+                        storage-gb: 10
+                    hosting: SHARED
+                    id: k8s-node_4
+                    instance-count: 1
+                    ip: 10.10.4.2
+                    name: k8s-node
+                    type: worker
+                    vdu-image: k8s-cdn-template
+                version: undefined
+                vim-credential: {password-ssh: necos, user-ssh: root}
+                vim-federated: false
+                vim-ref: {ip-api: 200.133.239.38, ip-ssh: 200.133.239.38, port-api: 21011,
+                  port-ssh: 22011}
+                vim-shared: false
+                vswitch: {bridge-name: br_11, type: openvswitch}
+              cost: {model: COST_PER_PHYSICAL_MACHINE_PER_DAY, value-euros: 60}
+              dc-slice-controller: {controller-id: '4', ip: 200.133.239.38, port: '23100'}
+              dc-slice-part-id: {slice-controller-id: '4', slice-part-uuid: '11'}
+              monitoring-parameters:
+                granularity-secs: 10
+                measurements-db-ip: 200.133.239.38
+                measurements-db-port: 19011
+                metrics:
+                - metric: {name: PERCENT_CPU_UTILIZATION}
+                - metric: {name: MEGABYTES_MEMORY_UTILIZATION}
+                - metric: {name: TOTAL_BYTES_DISK_IN}
+                - metric: {name: TOTAL_BYTES_DISK_OUT}
+                - metric: {name: TOTAL_BYTES_NET_RX}
+                - metric: {name: TOTAL_BYTES_NET_TX}
+                tool: prometheus
+                type: host
+              name: edge-dc-slice-brazil
+              type: EDGE
+          - dc-slice-part:
+              VIM:
+                host-count: 1
+                name: KUBERNETES
+                vdus:
+                - vdu:
+                    description: Master node for CDN deployment
+                    epa-attributes:
+                      host-epa:
+                        cpu-architecture: X86_64
+                        cpu-number: 2
+                        host-image: undefined
+                        memory-mb: 4096
+                        os-properties: {architecture: x86_64, distribution: undefined,
+                          type: linux, version: undefined}
+                        storage-gb: 10
+                    hosting: SHARED
+                    id: k8s-master_5
+                    instance-count: 1
+                    ip: 10.10.5.1
+                    name: k8s-master
+                    type: master
+                    vdu-image: k8s-cdn-template
+                - vdu:
+                    description: Compute node for CDN deployment
+                    epa-attributes:
+                      host-epa:
+                        cpu-architecture: X86_64
+                        cpu-number: 2
+                        host-image: undefined
+                        memory-mb: 4096
+                        os-properties: {architecture: x86_64, distribution: undefined,
+                          type: linux, version: undefined}
+                        storage-gb: 10
+                    hosting: SHARED
+                    id: k8s-node_5
+                    instance-count: 1
+                    ip: 10.10.5.2
+                    name: k8s-node
+                    type: worker
+                    vdu-image: k8s-cdn-template
+                version: undefined
+                vim-credential: {password-ssh: necos, user-ssh: root}
+                vim-federated: false
+                vim-ref: {ip-api: 10.1.0.3, ip-ssh: 10.1.0.3, port-api: 21095, port-ssh: 22095}
+                vim-shared: false
+                vswitch: {bridge-name: br_95, type: openvswitch}
+              cost: {model: COST_PER_PHYSICAL_MACHINE_PER_DAY, value-euros: 50}
+              dc-slice-controller: {controller-id: '5', ip: 172.100.100.50, port: '5000'}
+              dc-slice-part-id: {slice-controller-id: '5', slice-part-uuid: '95'}
+              monitoring-parameters:
+                granularity-secs: 10
+                measurements-db-ip: 10.1.0.3
+                measurements-db-port: 19095
+                metrics:
+                - metric: {name: PERCENT_CPU_UTILIZATION}
+                - metric: {name: MEGABYTES_MEMORY_UTILIZATION}
+                - metric: {name: TOTAL_BYTES_DISK_IN}
+                - metric: {name: TOTAL_BYTES_DISK_OUT}
+                - metric: {name: TOTAL_BYTES_NET_RX}
+                - metric: {name: TOTAL_BYTES_NET_TX}
+                tool: prometheus
+                type: host
+              name: edge-dc-slice-spain
+              type: EDGE
+          - dc-slice-part:
+              VIM:
+                host-count: 1
+                name: KUBERNETES
+                vdus:
+                - vdu:
+                    description: Master node for CDN deployment
+                    epa-attributes:
+                      host-epa:
+                        cpu-architecture: X86_64
+                        cpu-number: 2
+                        host-image: undefined
+                        memory-mb: 4096
+                        os-properties: {architecture: x86_64, distribution: undefined,
+                          type: linux, version: undefined}
+                        storage-gb: 10
+                    hosting: SHARED
+                    id: k8s-master_6
+                    instance-count: 1
+                    ip: 10.10.6.1
+                    name: k8s-master
+                    type: master
+                    vdu-image: k8s-cdn-template
+                - vdu:
+                    description: Compute node for CDN deployment
+                    epa-attributes:
+                      host-epa:
+                        cpu-architecture: X86_64
+                        cpu-number: 2
+                        host-image: undefined
+                        memory-mb: 4096
+                        os-properties: {architecture: x86_64, distribution: undefined,
+                          type: linux, version: undefined}
+                        storage-gb: 10
+                    hosting: SHARED
+                    id: k8s-node_6
+                    instance-count: 1
+                    ip: 10.10.6.2
+                    name: k8s-node
+                    type: worker
+                    vdu-image: k8s-cdn-template
+                version: undefined
+                vim-credential: {password-ssh: necos, user-ssh: root}
+                vim-federated: false
+                vim-ref: {ip-api: 195.251.209.100, ip-ssh: 195.251.209.100, port-api: 21034,
+                  port-ssh: 22034}
+                vim-shared: false
+                vswitch: {bridge-name: br_34, type: openvswitch}
+              cost: {model: COST_PER_PHYSICAL_MACHINE_PER_DAY, value-euros: 80}
+              dc-slice-controller: {controller-id: '6', ip: 195.251.209.100, port: 5000}
+              dc-slice-part-id: {slice-controller-id: '6', slice-part-uuid: '34'}
+              monitoring-parameters:
+                granularity-secs: 10
+                measurements-db-ip: 195.251.209.100
+                measurements-db-port: 19034
+                metrics:
+                - metric: {name: PERCENT_CPU_UTILIZATION}
+                - metric: {name: MEGABYTES_MEMORY_UTILIZATION}
+                - metric: {name: TOTAL_BYTES_DISK_IN}
+                - metric: {name: TOTAL_BYTES_DISK_OUT}
+                - metric: {name: TOTAL_BYTES_NET_RX}
+                - metric: {name: TOTAL_BYTES_NET_TX}
+                tool: prometheus
+                type: host
+              name: edge-dc-slice-greece
+              type: EDGE
+          - net-slice-part:
+              WIM: {name: VXLAN, version: 1.0, wim-federated: false, wim-ref: undefined,
+                wim-shared: true}
+              cost: {model: COST_PER_LINK_PER_DAY, value-euros: 50}
+              link-ends: {link-end1-ip: undefined, link-end2-ip: undefined}
+              links:
+              - dc-part1: {dc-slice-controller-id: '2', slice-part-uuid: '137'}
+              - dc-part2: {dc-slice-controller-id: '4', slice-part-uuid: '11'}
+              - requirements: {bandwidth-GB: teste}
+              name: dc-spain-to-dc-core
+              net-slice-part-id: {slice-controller-id: 9, slice-part-uuid: 34}
+              type: NET
+              wan-slice-controller: {controller-id: '9', ip: necos.dca.fee.unicamp.br,
+                port: '4000'}
+          - net-slice-part:
+              WIM: {name: VXLAN, version: 1.0, wim-federated: false, wim-ref: undefined,
+                wim-shared: true}
+              cost: {model: COST_PER_LINK_PER_DAY, value-euros: 50}
+              link-ends: {link-end1-ip: undefined, link-end2-ip: undefined}
+              links:
+              - dc-part1: {dc-slice-controller-id: '2', slice-part-uuid: '137'}
+              - dc-part2: {dc-slice-controller-id: '5', slice-part-uuid: '95'}
+              - requirements: {bandwidth-GB: teste}
+              name: dc-greece-to-dc-core
+              net-slice-part-id: {slice-controller-id: 9, slice-part-uuid: 35}
+              type: NET
+              wan-slice-controller: {controller-id: '9', ip: necos.dca.fee.unicamp.br,
+                port: '4000'}
+          - net-slice-part:
+              WIM: {name: VXLAN, version: 1.0, wim-federated: false, wim-ref: undefined,
+                wim-shared: true}
+              cost: {model: COST_PER_LINK_PER_DAY, value-euros: 50}
+              link-ends: {link-end1-ip: undefined, link-end2-ip: undefined}
+              links:
+              - dc-part1: {dc-slice-controller-id: '2', slice-part-uuid: '137'}
+              - dc-part2: {dc-slice-controller-id: '6', slice-part-uuid: '34'}
+              - requirements: {bandwidth-GB: teste}
+              name: dc-brazil-to-dc-core
+              net-slice-part-id: {slice-controller-id: 9, slice-part-uuid: 36}
+              type: NET
+              wan-slice-controller: {controller-id: '9', ip: necos.dca.fee.unicamp.br,
+                port: '4000'}
+          slice-requirements:
+            elasticity: false
+            reliability: {description: reliability level, enabled: true, value: none}
+          slice-timeframe:
+            service-start-time: {100919: 10 pm}
+            service-stop-time: {101019: 10 pm}
+          vendor: MTC
+          version: '1.0'
+    Status: OK
+  Status: OK
+Status: OK
+

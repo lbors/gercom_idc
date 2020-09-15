@@ -1,0 +1,6 @@
+requests==2.21.0
+grequests==0.6.0
+jsonlib-python3==1.6.1
+objectpath==0.6.1
+pymongo==3.11.0
+pyyaml==5.3.1

@@ -9,14 +9,14 @@ services:
       dockerfile: Dockerfile-Broker
     depends_on:
       - mongo-broker
-    network_mode: host
+#    network_mode: host
     ports:
       - 8000:8000
 
   mongo-broker:
     image: mongo
     container_name: mongo-broker
-    network_mode: host
+#    network_mode: host
     ports:
       - 27017:27017
     environment:

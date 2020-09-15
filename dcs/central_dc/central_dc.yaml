@@ -76,7 +76,7 @@ services:
       - MONGO_INITDB_ROOT_USERNAME:"admin"
       - MONGO_INITDB_ROOT_PASSWORD:"admin"
     volumes:
-      - "/marketplace-slice-agent/var/lib/mongodb-agent:/data/db"
+      - "/var/lib/mongodb-agent:/data/db"
         
 networks:
   custom:

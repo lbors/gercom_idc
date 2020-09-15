@@ -20,10 +20,13 @@ services:
       MYSQL_DATABASE: 'wan_slice_controller'
       MYSQL_USER: 'necos'
       MYSQL_PASSWORD: 'wanPass!'
+    ports:
+      - 3307:3306
+      - 33070:33060
     volumes:
-     - ./database/mysqldb:/var/lib/mysql
+      - ./database/mysqldb:/var/lib/mysql
     networks:
-         - custom
+      - custom
  
   wan-php-admin:
     image: phpmyadmin/phpmyadmin:latest

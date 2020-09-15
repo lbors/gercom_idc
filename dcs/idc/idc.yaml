@@ -12,8 +12,8 @@ services:
     depends_on:
       - dcsc-mysql
     volumes:
-      - ./Logs:/root_path/Logs
-      - ./keys:/root/.ssh/
+      - ./dc-slice-controller/Logs:/root_path/Logs
+      - ./dc-slice-controller/keys:/root/.ssh/
       - /var/lib/misc/dnsmasq.leases:/mnt/dnsmasq.leases
     
   dcsc-mysql:
@@ -25,8 +25,8 @@ services:
       MYSQL_USER: 'necos'
       MYSQL_PASSWORD: 'dcscPass!'
     volumes:
-      - ./Database/data/mysqldb:/var/lib/mysql
-      - ./Database/install_db.sql:/docker-entrypoint-initdb.d/install_db.sql
+      - ./dc-slice-controller/Database/data/mysqldb:/var/lib/mysql
+      - ./dc-slice-controller/Database/install_db.sql:/docker-entrypoint-initdb.d/install_db.sql
       
   dcsc-php-admin:
     container_name: dcsc-php-admin

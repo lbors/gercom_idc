@@ -9,14 +9,12 @@ services:
       dockerfile: Dockerfile-Broker
     depends_on:
       - mongo-broker
-#    network_mode: host
     ports:
       - 8000:8000
 
   mongo-broker:
     image: mongo
     container_name: mongo-broker
-#    network_mode: host
     ports:
       - 27017:27017
     environment:
@@ -27,4 +25,4 @@ services:
       # scripts de semeadura
       - ./mongo-entrypoint:/docker-entrypoint-initdb.d
       # volumes nomeados
-      - "/var/lib/mongodb-broker:/data/db"
+      - "./mongodb-broker:/data/db"

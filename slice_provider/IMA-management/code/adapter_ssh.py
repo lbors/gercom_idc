@@ -9,8 +9,8 @@ import time
 
 app = Flask(__name__)
 ssh_port = 22
-ssh_ip = '10.126.1.187'
-ssh_user = 'necos'
+ssh_ip = '10.126.1.32'
+ssh_user = 'gercom'
 ssh_pass = 'gercom'
 master_ip = '10.126.1.32'
 

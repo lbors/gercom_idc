@@ -3,7 +3,8 @@ RUN \
     apk add git && \
     apk add build-base && \
     apk add openssl-dev libffi-dev && \
-    git clone https://github.com/williamgdo/IMA_management.git && \
+    #git clone https://github.com/williamgdo/IMA_management.git && \
+    git clone --branch refact https://github.com/lbors/IMA_management.git && \
     pip3 install requests && \
     pip3 install pika==0.13.1 && \
     pip3 install influxdb --default-timeout=100 && \
@@ -16,4 +17,4 @@ RUN \
     git checkout refact && \
     git pull
 
-ENTRYPOINT python3.7 IMA_management/code/adapter_ssh.py >> adapter.log
+ENTRYPOINT python3.7 code/adapter_ssh.py >> adapter.log

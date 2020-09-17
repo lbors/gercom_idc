@@ -1,0 +1,128 @@
+version: '3'
+
+services:
+
+  dcsc-webserver:
+    container_name: dcsc-webserver
+    build:
+      context: ./dc-slice-controller
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    depends_on:
+      - dcsc-mysql
+    volumes:
+      - ./dc-slice-controller/Logs:/root_path/Logs
+      - ./dc-slice-controller/keys:/root/.ssh/
+      - ./dc-slice-controller/lib/misc/dnsmasq.leases:/mnt/dnsmasq.leases
+    
+  dcsc-mysql:
+    container_name: dcsc-mysql
+    image: mysql:5.7.25
+    environment:
+      MYSQL_ROOT_PASSWORD: 'dcscPass!'
+      MYSQL_DATABASE: 'dc_slice_controller'
+      MYSQL_USER: 'necos'
+      MYSQL_PASSWORD: 'dcscPass!'
+    ports:
+      - 3308:3306
+      - 33080:33060
+    volumes:
+      - ./dc-slice-controller/Database/data/mysqldb:/var/lib/mysql
+      - ./dc-slice-controller/Database/install_db.sql:/docker-entrypoint-initdb.d/install_db.sql
+      
+  dcsc-php-admin:
+    container_name: dcsc-php-admin
+    image: phpmyadmin/phpmyadmin:latest
+    links:
+      - dcsc-mysql
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+    depends_on:
+      - dcsc-mysql
+
+  wan_master:
+    build:
+      context: ./wan_master
+      dockerfile: Dockerfile
+    ports:
+      - "4000:8080"
+    networks:
+      - custom
+    environment:
+      - API_WORKERS=5
+    depends_on:
+      - wan-master-mysql
+ 
+  wan-master-mysql:
+    image: mysql:5.7.25
+    environment:
+      MYSQL_ROOT_PASSWORD: 'wanPass!'
+      MYSQL_DATABASE: 'wan_slice_controller'
+      MYSQL_USER: 'necos'
+      MYSQL_PASSWORD: 'wanPass!'
+    ports:
+      - 3307:3306
+      - 33070:33060
+    volumes:
+      - ./wan_master/database/mysqldb:/var/lib/mysql
+    networks:
+      - custom
+ 
+  wan-php-admin:
+    image: phpmyadmin/phpmyadmin:latest
+    links:
+      - wan-master-mysql
+    ports:
+      - 8888:80
+    environment:
+      - PMA_ARBITRARY=1
+    depends_on:
+      - wan-master-mysql
+    networks:
+      - custom
+
+  wan_agent:
+    container_name: wan_agent
+    build:
+      context: ./wan-slice-controller-agent
+      dockerfile: Dockerfile
+    ports:
+      - 3030:8080
+    depends_on:
+      - wan_master
+    networks:
+      - custom
+    environment:
+      - API_WORKERS=5
+    extra_hosts:
+      - "ovs-agent:10.16.10.31"
+
+  agent:
+    container_name: agent
+    build:
+      context: ./marketplace-slice-agent
+      dockerfile: Dockerfile-Agent
+    depends_on:
+      - mongo-agent
+      - wan_agent
+    ports:
+      - 8001:8001
+
+  mongo-agent:
+    image: mongo
+    container_name: mongo-agent
+    ports:
+      - 27018:27017
+    environment:
+      - MONGO_INITDB_DATABASE:"agentdb"
+      - MONGO_INITDB_ROOT_USERNAME:"admin"
+      - MONGO_INITDB_ROOT_PASSWORD:"admin"
+    volumes:
+      - "./marketplace-slice-agent/mongodb-agent:/data/db"
+        
+networks:
+  custom:
+    driver: bridge

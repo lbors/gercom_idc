@@ -14,7 +14,8 @@ services:
     volumes:
       - ./dc-slice-controller/Logs:/root_path/Logs
       - ./dc-slice-controller/keys:/root/.ssh/
-      - /var/lib/misc/dnsmasq.leases:/mnt/dnsmasq.leases
+#      - /var/lib/misc/dnsmasq.leases:/mnt/dnsmasq.leases
+      - /home/gercom/gercom_idc/dcs/central_dc/dc-slice-controller/lib/misc/dnsmasq.leases:/mnt/dnsmasq.leases
     
   dcsc-mysql:
     container_name: dcsc-mysql
@@ -24,6 +25,9 @@ services:
       MYSQL_DATABASE: 'dc_slice_controller'
       MYSQL_USER: 'necos'
       MYSQL_PASSWORD: 'dcscPass!'
+    ports:
+      - 3308:3306
+      - 33080:33060
     volumes:
       - ./dc-slice-controller/Database/data/mysqldb:/var/lib/mysql
       - ./dc-slice-controller/Database/install_db.sql:/docker-entrypoint-initdb.d/install_db.sql
@@ -61,14 +65,14 @@ services:
       dockerfile: Dockerfile-Agent
     depends_on:
       - mongo-agent
-    network_mode: host
+#    network_mode: host
     ports:
       - 8001:8001
 
   mongo-agent:
     image: mongo
     container_name: mongo-agent
-    network_mode: host
+#    network_mode: host
     ports:
       - 27017:27017
     environment:
@@ -76,7 +80,8 @@ services:
       - MONGO_INITDB_ROOT_USERNAME:"admin"
       - MONGO_INITDB_ROOT_PASSWORD:"admin"
     volumes:
-      - "/var/lib/mongodb-agent:/data/db"
+#      - "/var/lib/mongodb-agent:/data/db"
+      - "/home/gercom/gercom_idc/dcs/central_dc/marketplace-slice-agent/mongodb-agent:/data/db"
         
 networks:
   custom:

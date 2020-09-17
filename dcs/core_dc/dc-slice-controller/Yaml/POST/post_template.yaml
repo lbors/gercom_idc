@@ -1,0 +1,14 @@
+template:
+    name: "kube-template"
+    version: "2"
+    memory: 2
+    vcpu: 2
+    storage: 10
+<<<<<<< HEAD
+    #ip_address: "10.16.15.10"
+    ip_address: "10.126.1.32"
+=======
+    ip_address: "10.16.15.10"
+>>>>>>> e4c4bff8a9b9830fec1b283bc8a7e2ccd84c491c
+    path: "kube-template"
+    VIM_Type_name: "Kubernetes"

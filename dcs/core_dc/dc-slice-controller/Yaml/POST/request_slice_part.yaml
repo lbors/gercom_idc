@@ -1,0 +1,129 @@
+<<<<<<< HEAD
+dc-slice-part:
+    name: slice-part-test-01
+    user: GERCOM
+    VIM: # VIM information
+        VIM_Type_name: "Kubernetes"
+    vdus:
+        - dc-vdu:
+            name: master-test-01
+            ip-address: 10.10.10.70
+            description: load balancer for elastic CDN deployment 
+            template_name: kube-template
+            type: master
+        - dc-vdu:
+            name: worker-test-01
+            ip-address: 10.10.10.71
+            description: load balancer for elastic CDN deployment 
+            template_name: kube-template
+            type: worker
+        - dc-vdu:
+            name: worker-test-02
+            ip-address: 10.10.10.72
+            description: load balancer for elastic CDN deployment 
+            template_name: kube-template
+            type: worker
+=======
+slices:
+  sliced:
+    description: Slicing for Elastic IoT Service
+    id: IoTService_sliced
+    name: IoTService_sliced
+    short-name: IoTService_sliced
+    slice-lifecycle: {description: lifecycle status, status: construction}
+    slice-part:
+    - dc-slice-part:
+        VIM:
+          host-count: 1
+          name: KUBERNETES
+          vdus:
+          - description: Master (controller) of kubernetes cluster
+            epa-attributes:
+              host-epa:
+                cpu-architecture: PREFER_X86_64
+                cpu-number: 4
+                host-image: indefined
+                memory-mb: {greater_or_equal: 8192}
+                os-properties:
+                  architecture: {equal: x86_64}
+                  distribution: ubuntu
+                  type: linux
+                  version: 18.04
+                storage-gb: 100
+            hosting: SHARED
+            id: k8s-master
+            instance-count: 1
+            ip: 10.10.2.1
+            name: k8s-master
+            type: master
+            vdu: null
+            vdu-image: k8s-dojot-template
+          - description: Compute node of kubernetes cluster
+            epa-attributes:
+              host-epa:
+                cpu-architecture: PREFER_X86_64
+                cpu-number: 8
+                host-image: undefined
+                memory-mb: {greater_or_equal: 32768}
+                os-properties:
+                  architecture: {equal: x86_64}
+                  distribution: ubuntu
+                  type: linux
+                  version: 18.04
+                storage-gb: 500
+            hosting: SHARED
+            id: k8s-node1
+            instance-count: 3
+            ip: 10.10.2.2
+            name: k8s-node1
+            type: worker
+            vdu: null
+            vdu-image: k8s-dojot-template
+          - description: Compute node of kubernetes cluster
+            epa-attributes:
+              host-epa:
+                cpu-architecture: PREFER_X86_64
+                cpu-number: 8
+                host-image: undefined
+                memory-mb: {greater_or_equal: 32768}
+                os-properties:
+                  architecture: {equal: x86_64}
+                  distribution: ubuntu
+                  type: linux
+                  version: 18.04
+                storage-gb: 500
+            hosting: SHARED
+            id: k8s-node2
+            instance-count: 3
+            ip: 10.10.2.3
+            name: k8s-node2
+            type: worker
+            vdu: null
+            vdu-image: k8s-dojot-template
+          version: v1.14.1
+          vim-federated: false
+          vim-ref: undefined
+          vim-shared: false
+        monitoring-parameters:
+          granularity-secs: 10
+          measurements-db-ip: <X>
+          measurements-db-port: <X>
+          metrics:
+          - metric: {name: PERCENT_CPU_UTILIZATION}
+          - metric: {name: MEGABYTES_MEMORY_UTILIZATION}
+          - metric: {name: TOTAL_BYTES_DISK_IN}
+          - metric: {name: TOTAL_BYTES_DISK_OUT}
+          - metric: {name: TOTAL_BYTES_NET_RX}
+          - metric: {name: TOTAL_BYTES_NET_TX}
+          tool: netdata
+          type: host
+        name: dc-slice1
+        type: DC
+    slice-requirements:
+      elasticity: true
+      reliability: {description: reliability level, enabled: true, value: none}
+    slice-timeframe:
+      service-start-time: {100919: 10 pm}
+      service-stop-time: {101019: 10 pm}
+    vendor: dojot
+>>>>>>> e4c4bff8a9b9830fec1b283bc8a7e2ccd84c491c

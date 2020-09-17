@@ -4,7 +4,6 @@ template:
     memory: 2
     vcpu: 2
     storage: 10
-    #ip_address: "10.16.15.10"
-    ip_address: "10.126.1.32"
+    ip_address: "10.16.15.10"
     path: "kube-template"
     VIM_Type_name: "Kubernetes"

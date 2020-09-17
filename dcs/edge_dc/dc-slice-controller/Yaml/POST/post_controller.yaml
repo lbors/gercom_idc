@@ -1,0 +1,7 @@
+controller:
+    id: 1
+    role: role_controller
+    configuration_protocol: configuration_protocol
+    configuration_interface: configuration_in
+    provider: "ufg"
+    

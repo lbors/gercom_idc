@@ -1,0 +1,26 @@
+Marketplace/slice-broker/src/config_broker.py
+	MONGO_IP_PORT = ip do broker
+
+Resource Provider/dc-slice-controller/Code/settings.py
+	OVSDB_ADDR = 'tcp: xen-host-ip:6640'
+
+Resource Provider/wan-slice-controller-agent/src/settings.py
+	OVSDB_ADDR = 'tcp: xen-host-ip:6640'
+	LOCAL_IP = ip do agent
+	REMOTE_ADDRESS_MAPPING = nao sei
+
+Resource Provider/marketplace-slice-agent/scr/config_agent.py
+	AGENT
+	BROKER
+	MONGO_IP_PORT = ip das maquinas
+
+	dc_slice_provider "nome do local"
+	dc_ip = ip do dc_slice
+
+	wan_slice_provider = "nome do local"
+	wan_ip = ip do wan_slice
+
+	FIRST_LOCAL_RESOURCES_DC = informações da maquina?
+
+D2.2
+	Requerements Analysis -> pag 13

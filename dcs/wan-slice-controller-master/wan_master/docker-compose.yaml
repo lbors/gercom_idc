@@ -1,0 +1,43 @@
+version: '3'
+ 
+services:
+  wan_master:
+    build: ./
+    ports:
+    - "4000:8080"
+    networks:
+         - custom
+    environment:
+     - API_WORKERS=5
+    depends_on:
+     - wan-master-mysql
+ 
+ 
+  wan-master-mysql:
+    image: mysql:5.7.25
+    environment:
+      MYSQL_ROOT_PASSWORD: 'wanPass!'
+      MYSQL_DATABASE: 'wan_slice_controller'
+      MYSQL_USER: 'necos'
+      MYSQL_PASSWORD: 'wanPass!'
+    volumes:
+     - ./database/mysqldb:/var/lib/mysql
+    networks:
+         - custom
+ 
+  wan-php-admin:
+    image: phpmyadmin/phpmyadmin:latest
+    links:
+     - wan-master-mysql
+    ports:
+     - 8888:80
+    environment:
+     - PMA_ARBITRARY=1
+    depends_on:
+     - wan-master-mysql
+    networks:
+      - custom
+ 
+networks:
+      custom:
+        driver: bridge

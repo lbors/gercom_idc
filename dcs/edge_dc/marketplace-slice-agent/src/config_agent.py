@@ -17,7 +17,7 @@ dc_slice_provider = "IDC"
 dc_ip = "10.126.1.187"
 dc_port = 5000
 dc_cost=50
-dc_id = 1
+dc_id = 2
 dc_EXPTIME = 30
 
 
@@ -25,7 +25,7 @@ wan_slice_provider = "WAN IDC"
 wan_ip = "10.126.1.187"
 wan_port = 3030
 wan_cost=50
-wan_id = 1
+wan_id = 4
 wan_EXPTIME = 30
 
 FIRST_LOCAL_RESOURCES_DC = {"_id": dc_id,

@@ -1,10 +1,10 @@
 host:
-    memory: 100
-    storage: 1000
-#    ip_address: 10.16.10.31
-#    hostname: necos01
-    ip_address: 10.126.1.32
-    hostname: gercom
+    memory: 62741
+    storage: 1978
+    ip_address: 10.16.10.31
+    hostname: necos01
+#    ip_address: 10.126.1.32
+#    hostname: gercom
     availability: 1
     location: Brazil
     cpu:

@@ -14,7 +14,7 @@ services:
     volumes:
       - ./dc-slice-controller/Logs:/root_path/Logs
       - ./dc-slice-controller/keys:/root/.ssh/
-      - /var/lib/misc/dnsmasq.leases:/mnt/dnsmasq.leases
+      - ./dc-slice-controller/lib/misc/dnsmasq.leases:/mnt/dnsmasq.leases
     
   dcsc-mysql:
     container_name: dcsc-mysql

@@ -10,25 +10,25 @@ slice_builder = Blueprint('slice_builder', 'slice_builder', url_prefix='/slice_b
 
 @slice_builder.route('initiate_slice_creation', methods=['POST'])
 def initiate_slice_creation():
-    print("Iniciando criação de slice no slice_builder")
+    logs.logger.info("Iniciando criação de slice no slice_builder")
     start = time.time()
 #     # validate yaml
     try:
         slice_description = request.data
         logs.logger.info(yaml.load(request.data))
     except Exception as e:
-        print("Erro na validação do json no slice_builder")
+        logs.logger.info("Erro na validação do json no slice_builder")
         errors = []
         errors.append("Invalid yaml file!")
         if(len(e.args)>2): errors.append(e.args)
         else: errors.append(e.args)
-        print("Erro ao criar slice no slice_builder")
+        logs.logger.info("Erro ao criar slice no slice_builder")
         return logs.callback(0, errors), 400
 
 #    file = open('./Yaml/iot_slice-builder-to-slice-broker.yaml', 'r') 
  #   file_yaml = yaml.load(yaml.load(yaml.dump(file.read())))
 # slice_broker = requests.post('http://'+SLICE_BROKER+'/slice_broker', data=file_yaml)
-    print("Procurando por slice_parts no slice_builder")
+    logs.logger.info("Procurando por slice_parts no slice_builder")
 
     yaml_response = "0"
     logs.logger.info("Searching slice part alternatives in Marketplace...")
@@ -77,10 +77,8 @@ def initiate_slice_creation():
                     if(re.search('195.251.209.100', url, re.IGNORECASE)):
                         provider = "UOM"
                     else:
-                        provider = "UFSCAR"            
-            response = yaml.dump(yaml.load((yaml.load(yaml.dump(thread.get())))["ID"]))
-            logs.logger.info("Response from "+provider+" DC slice controller: "+ response)
-            dc_slices_id.append(thread.get())"""
+                        provider = "UFSCAR"
+        """
         for thread in threads:
             url = response = yaml.dump(yaml.load((yaml.load(yaml.dump(thread.get())))["URL"]))
             if (re.search('10.126.1.32', url, re.IGNORECASE)):
@@ -351,7 +349,7 @@ def choosing_slices (slice_options):
                     best_cost = yaml.load(yaml.dump(alternative["cost"]))["value-euros"]
                     wan_slice_controller = alternative["wan-slice-controller"]
             #controller = {"controller-id": '9', "ip": 'necos.dca.fee.unicamp.br', "port": '4000'}
-            controller = {"controller-id": '9', "ip": '10.126.1.32', "port": '4000'}
+            controller = {"controller-id": '1', "ip": '10.126.1.32', "port": '4000'}
             slice = {"Controller": controller, "Slice": "null"}
             try:
              

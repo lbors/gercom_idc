@@ -1,6 +1,6 @@
 import hug
 import yaml
-#import grequests
+import grequests
 import requests
 import json
 from controller.probe_strategy import *
@@ -39,7 +39,9 @@ class SliceBroker:
             ip = temp[0]
             port = temp[1]
             agent_run = subprocess.getoutput("nc -vz" + " " + ip + " " + port)
-            if "succeeded" in agent_run:
+            '''
+            for SO Debian
+             if "succeeded" in agent_run:
                 if type(agent) == dict:
                     self.agents[agent['providerId']] = agent
                 else:
@@ -49,6 +51,17 @@ class SliceBroker:
                 if "refused" in agent_run:
                     print("Port Offline: Delete")
                     database.remove({'providerId': {'$eq': ip + ":" + port}}, config_broker.COLLECTION_ACTIVE_AGENTS)
+            '''
+            #for SO Alpine
+            if "open" in agent_run:
+                if type(agent) == dict:
+                    self.agents[agent['providerId']] = agent
+                else:
+                    self.agents[agent] = agent
+                request.append(ip + ":" + port)
+            else:
+                print("Port Offline: Delete")
+                database.remove({'providerId': {'$eq': ip + ":" + port}}, config_broker.COLLECTION_ACTIVE_AGENTS)
         return request
 
     def probe_agents(self, agents_pdts):

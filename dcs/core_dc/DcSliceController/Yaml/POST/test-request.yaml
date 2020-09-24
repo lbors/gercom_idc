@@ -1,0 +1,148 @@
+slices:
+   sliced:
+      id: IoTService_sliced
+      name: IoTService_sliced
+      short-name: IoTService_sliced
+      description: Slicing for Elastic IoT Service
+      vendor: dojot
+
+      slice-requirements:
+         elasticity: true
+         reliability:
+            description: reliability level
+            enabled: true
+            value: none   # {path-backup, logical-backup, physical-backup\}
+
+      slice-lifecycle:
+         description: lifecycle status
+         status: construction    # {modification, activation, deletion\}
+
+      slice-timeframe:
+         service-start-time: {100919: 10 pm}
+         service-stop-time: {101019: 10 pm}
+
+
+      slice-part:
+         - dc-slice-part:
+             name: dc-slice1
+             type: DC
+
+             monitoring-parameters:
+                tool: netdata
+                measurements-db-ip: <X>
+                measurements-db-port: <X>
+                granularity-secs: 10
+                type: host
+                metrics:
+                   - metric:
+                        name: PERCENT_CPU_UTILIZATION        
+                   - metric:
+                        name: MEGABYTES_MEMORY_UTILIZATION        
+                   - metric:
+                        name: TOTAL_BYTES_DISK_IN        
+                   - metric:
+                        name: TOTAL_BYTES_DISK_OUT 
+                   - metric:
+                        name: TOTAL_BYTES_NET_RX 
+                   - metric:
+                        name: TOTAL_BYTES_NET_TX 
+
+             VIM:
+                 name: KUBERNETES 
+                 version:  v1.14.1 
+                 vim-shared: false
+                 vim-federated: false
+                 vim-ref: undefined
+                 host-count: 1
+                 vdus:
+                     - vdu:
+                         id: k8s-master
+                         name: k8s-master
+                         description: Master (controller) of kubernetes cluster
+                         instance-count: 1
+                         hosting: SHARED
+                         vdu-image: 'kube-template'
+                         type: master
+                         ip: 10.10.2.1 #UNICAMP
+
+                         epa-attributes:
+                            host-epa:
+                                cpu-architecture: PREFER_X86_64
+                                cpu-number: 4
+                                storage-gb: 100
+                                memory-mb: {greater_or_equal: 8192}
+                                os-properties:
+                                    architecture: {equal: x86_64}
+                                    type: linux
+                                    distribution: ubuntu
+                                    version: 18.04
+                                host-image: indefined
+                     - vdu:
+                         id: k8s-node
+                         name: k8s-node
+                         description: Compute node of kubernetes cluster
+                         instance-count: 1
+                         hosting: SHARED 
+                         vdu-image: 'kube-template'
+                         type: worker
+                         ip: 10.10.2.2 #UNICAMP
+
+                         epa-attributes:
+                            host-epa:
+                                cpu-architecture: PREFER_X86_64
+                                cpu-number: 8
+                                storage-gb: 500
+                                memory-mb: {greater_or_equal: 32768}
+                                os-properties:
+                                    architecture: {equal: x86_64}
+                                    type: linux
+                                    distribution: ubuntu
+                                    version: 18.04
+                                host-image: undefined
+
+                     - vdu:
+                         id: k8s-node
+                         name: k8s-node
+                         description: Compute node of kubernetes cluster
+                         instance-count: 1
+                         hosting: SHARED 
+                         vdu-image: 'kube-template'
+                         type: worker
+                         ip: 10.10.2.3 #UNICAMP
+
+                         epa-attributes:
+                            host-epa:
+                                cpu-architecture: PREFER_X86_64
+                                cpu-number: 8
+                                storage-gb: 500
+                                memory-mb: {greater_or_equal: 32768}
+                                os-properties:
+                                    architecture: {equal: x86_64}
+                                    type: linux
+                                    distribution: ubuntu
+                                    version: 18.04
+                                host-image: undefined
+         
+                     - vdu:
+                         id: k8s-node
+                         name: k8s-node
+                         description: Compute node of kubernetes cluster
+                         instance-count: 1
+                         hosting: SHARED 
+                         vdu-image: 'kube-template'
+                         type: worker
+                         ip: 10.10.2.4 #UNICAMP
+
+                         epa-attributes:
+                            host-epa:
+                                cpu-architecture: PREFER_X86_64
+                                cpu-number: 8
+                                storage-gb: 500
+                                memory-mb: {greater_or_equal: 32768}
+                                os-properties:
+                                    architecture: {equal: x86_64}
+                                    type: linux
+                                    distribution: ubuntu
+                                    version: 18.04
+                                host-image: undefined
+

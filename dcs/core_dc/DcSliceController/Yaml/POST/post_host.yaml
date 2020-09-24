@@ -1,0 +1,15 @@
+host:
+    memory: 62741
+    storage: 1978
+#    ip_address: 192.168.122.1
+    ip_address: 10.126.1.32
+    hostname: gercom2
+    availability: 1
+    location: Brazil
+    cpu:
+        cycles: 1
+        cores: 40
+        model: 85
+        architecture: x86_64
+        instruction_set: 1
+

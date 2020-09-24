@@ -1,13 +1,14 @@
 host:
-    memory: 100
-    storage: 1000
-    ip_address: 10.16.10.31
-    hostname: necos01
+    memory: 1700
+    storage: 295
+    #ip_address: 10.16.10.31
+    ip_address: 10.126.1.187
+    hostname: idc-srv
     availability: 1
     location: Brazil
     cpu:
         cycles: 1
-        cores: 100
+        cores: 2
         model: 1
         architecture: 1
         instruction_set: 1

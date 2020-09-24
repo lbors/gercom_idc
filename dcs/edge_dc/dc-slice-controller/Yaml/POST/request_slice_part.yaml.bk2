@@ -15,15 +15,15 @@ slices:
             epa-attributes:
               host-epa:
                 cpu-architecture: PREFER_X86_64
-                cpu-number: 1
+                cpu-number: 4
                 host-image: indefined
-                memory-mb: {greater_or_equal: 2048}
+                memory-mb: {greater_or_equal: 8192}
                 os-properties:
                   architecture: {equal: x86_64}
                   distribution: ubuntu
                   type: linux
                   version: 18.04
-                storage-gb: 20
+                storage-gb: 100
             hosting: SHARED
             id: k8s-master
             instance-count: 1
@@ -36,15 +36,15 @@ slices:
             epa-attributes:
               host-epa:
                 cpu-architecture: PREFER_X86_64
-                cpu-number: 1
+                cpu-number: 8
                 host-image: undefined
-                memory-mb: {greater_or_equal: 2048}
+                memory-mb: {greater_or_equal: 32768}
                 os-properties:
                   architecture: {equal: x86_64}
                   distribution: ubuntu
                   type: linux
                   version: 18.04
-                storage-gb: 20
+                storage-gb: 500
             hosting: SHARED
             id: k8s-node1
             instance-count: 3
@@ -57,15 +57,15 @@ slices:
             epa-attributes:
               host-epa:
                 cpu-architecture: PREFER_X86_64
-                cpu-number: 1
+                cpu-number: 8
                 host-image: undefined
-                memory-mb: {greater_or_equal: 2048}
+                memory-mb: {greater_or_equal: 32768}
                 os-properties:
                   architecture: {equal: x86_64}
                   distribution: ubuntu
                   type: linux
                   version: 18.04
-                storage-gb: 20
+                storage-gb: 500
             hosting: SHARED
             id: k8s-node2
             instance-count: 3

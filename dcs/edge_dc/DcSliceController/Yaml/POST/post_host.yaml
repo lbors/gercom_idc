@@ -1,0 +1,14 @@
+host:
+    memory: 1700
+    storage: 295
+#    ip_address: 192.168.122.1
+    ip_address: 10.126.1.187
+    hostname: idc-srv
+    availability: 1
+    location: Brazil
+    cpu:
+        cycles: 1
+        cores: 2
+        model: 1
+        architecture: 1
+        instruction_set: 1

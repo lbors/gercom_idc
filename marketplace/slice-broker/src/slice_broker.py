@@ -33,8 +33,10 @@ class SliceBroker:
             print ("AGGENTT", agent)
             if type(agent) == dict:
                 temp = agent['providerId']
+                print ("TEMPPP(IF)", temp)
             else:
                 temp = agent
+                print ("TEMPPP(ELSE)", temp)
             temp = temp.split(':')
             ip = temp[0]
             port = temp[1]
@@ -52,7 +54,6 @@ class SliceBroker:
                     print("Port Offline: Delete")
                     database.remove({'providerId': {'$eq': ip + ":" + port}}, config_broker.COLLECTION_ACTIVE_AGENTS)
             '''
-            #for SO Alpine
             if "open" in agent_run:
                 if type(agent) == dict:
                     self.agents[agent['providerId']] = agent
@@ -190,7 +191,7 @@ def register_provider(providerId: hug.types.text, providerType: hug.types.text, 
 @hug.get()
 def status():
     """called by the Slice Builder"""
-    active_agents = sb.agents
+    active_agents = database.read(config_broker.COLLECTION_ACTIVE_AGENTS)
     res = json.dumps(sb.status(active_agents))
     print (res)
     return res

@@ -37,8 +37,10 @@ xen_credencials = {
 
 # osm template
 osm_credencials = {
-    "username":"root",
-    "password":"5gedge"
+    #"username":"root",
+    #"password":"5gedge"
+    "username":"gercom",
+    "password":"gercom"
 }
 
 # Server PUBLIC ip and port 

@@ -1,3 +1,9 @@
-dc-slice-part:
-    uuid: a654bec1-43c6-4c35-a201-ba4412f5e5a6
+#dc-slice-part:
+#    uuid: a654bec1-43c6-4c35-a201-ba4412f5e5a6
+slices:
+   sliced:
+      slice-part-id:
+          slice-controller-id: 4
+          uuid: 1
+#          uuid: 7f58fe8e-85e3-4d4b-b57b-11f8f5697b3a
 

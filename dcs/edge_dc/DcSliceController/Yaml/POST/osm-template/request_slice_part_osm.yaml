@@ -27,7 +27,8 @@ slices:
             hosting: SHARED
             id: osm
             instance-count: 1
-            ip: 10.10.2.1
+            #ip: 10.10.2.1
+            ip: 10.16.10.101
             name: osm
             type: master
             vdu: null

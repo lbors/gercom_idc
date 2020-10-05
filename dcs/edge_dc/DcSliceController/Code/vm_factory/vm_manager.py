@@ -74,14 +74,17 @@ def delete_vm(name):
         if(state!="SHUTDOWN" and state!="SHUTOFF"): 
             vm.destroy()
         vm.undefine()
-        os.system(f"ssh {xen_user}@{xen_host} -p {xen_port} 'sudo lvremove --force /dev/vg0/{name}-disk'")
-        os.system(f"virsh --connect={uri} pool-refresh vg0")
+        #os.system(f"ssh {xen_user}@{xen_host} -p {xen_port} 'sudo lvremove --force /dev/vg0/{name}-disk'")
+        os.system(f"virsh --connect={uri} vol-delete {name} --pool default")
+        #os.system(f"virsh --connect={uri} pool-refresh vg0")
+        os.system(f"virsh --connect={uri} pool-refresh default")
         logs.logger.info(f"Vm '{name}' deleted successfully")
     conn.close()
     return 1
 
 def clone_vm(origin_vm, new_name):
-    command = f"virt-clone --connect={uri} -o {origin_vm} -n {new_name} -f /dev/vg0/{new_name}-disk --force"
+    #command = f"virt-clone --connect={uri} -o {origin_vm} -n {new_name} -f /dev/vg0/{new_name}-disk --force"
+    command = f"virt-clone --connect={uri} -o {origin_vm} -n {new_name} -f /var/lib/libvirt/images/{new_name} --force"
     conn = libvirt.open(uri)
     vm = conn.lookupByName(origin_vm)
     if vm == None: 

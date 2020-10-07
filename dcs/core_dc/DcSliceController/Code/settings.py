@@ -7,7 +7,7 @@ dnsmasq_file = '/mnt/dnsmasq.leases'
 
 # network manager
 # change following the model: OVSDB_ADDR = 'tcp:XEN-HOST-IP:6640'
-OVSDB_ADDR = 'tcp:10.126.1.187:6640'
+OVSDB_ADDR = 'tcp:10.126.1.32:6640'
 
 # database information
 db_user = 'necos'
@@ -16,8 +16,8 @@ db_host = 'dcsc-mysql'
 db_name = 'dc_slice_controller'
 
 # xen server
-xen_host = '10.126.1.187' 
-xen_user = 'necos'
+xen_host = '10.126.1.32' 
+xen_user = 'gercom'
 xen_port = '22' 
 
 # control interface name
@@ -26,21 +26,21 @@ bridge_control = 'br-control'
 # kubernetes template (change only if you made your own template)
 kube_credencials = {
     "username":"root",
-    "password":"necos"
+    "password":"gercom"
 }
 
 # xen template (change only if you made your own template)
 xen_credencials = {
     "username":"root",
-    "password":"necos"
+    "password":"gercom"
 }
 
 # osm template
 osm_credencials = {
     "username":"root",
-    "password":"5gedge"
+    "password":"gercom"
 }
 
 # Server PUBLIC ip and port 
-server_public_ip = "10.126.1.187"
+server_public_ip = "10.126.1.32"
 server_public_port = "22"

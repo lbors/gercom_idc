@@ -5,7 +5,7 @@ services:
   dcsc-mysql:
     container_name: dcsc-mysql
     image: mysql:5.7.25
-    privileged: true
+    #privileged: true
     environment:
       MYSQL_ROOT_PASSWORD: 'dcscPass!'
       MYSQL_DATABASE: 'dc_slice_controller'
@@ -15,6 +15,19 @@ services:
       - ./DcSliceController/Database/data/mysqldb:/var/lib/mysql
       - ./DcSliceController/Database/install_db.sql:/docker-entrypoint-initdb.d/install_db.sql
       
+  dcsc-php-admin:
+    container_name: dcsc-php-admin
+    image: phpmyadmin/phpmyadmin:latest
+    privileged: true
+    links:
+      - dcsc-mysql
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+    depends_on:
+      - dcsc-mysql
+
   dcsc-webserver:
     container_name: dcsc-webserver
     build:
@@ -30,19 +43,6 @@ services:
       - ./DcSliceController/keys:/root/.ssh/
       - /var/lib/misc/dnsmasq.leases:/mnt/dnsmasq.leases
     
-  dcsc-php-admin:
-    container_name: dcsc-php-admin
-    image: phpmyadmin/phpmyadmin:latest
-    privileged: true
-    links:
-      - dcsc-mysql
-    ports:
-      - 8080:80
-    environment:
-      - PMA_ARBITRARY=1
-    depends_on:
-      - dcsc-mysql
-
   wan_master:
     container_name: wan_master
     build:
@@ -61,7 +61,7 @@ services:
   wan-master-mysql:
     container_name: wan_master_mysql
     image: mysql:5.7.25
-    privileged: true
+    #privileged: true
     environment:
       MYSQL_ROOT_PASSWORD: 'wanPass!'
       MYSQL_DATABASE: 'wan_slice_controller'
@@ -135,3 +135,4 @@ services:
 networks:
   custom:
     driver: bridge
+

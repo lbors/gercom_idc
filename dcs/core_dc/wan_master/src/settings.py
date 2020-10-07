@@ -2,7 +2,9 @@ CONTROLLER_ID = 9
 
 MYSQL_USER = "necos"
 MYSQL_PASSWORD = 'wanPass!'
-MYSQL_HOST = 'wan-master-mysql'
+#MYSQL_HOST = 'wan-master-mysql'
+MYSQL_HOST = '10.126.1.32'
+MYSQL_PORT = "3307"
 MYSQL_DB = "wan_slice_controller"
 
 AGENTS_TIMEOUT = 5

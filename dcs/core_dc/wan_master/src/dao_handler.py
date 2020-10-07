@@ -6,7 +6,7 @@ import time
 import logging
 from random import randint
 
-from settings import MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_DB
+from settings import MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_PORT, MYSQL_DB
 
 Base = declarative_base()
  
@@ -15,7 +15,7 @@ connection_string = 'mysql+pymysql://%s:%s@%s:%s/%s' % (
             MYSQL_USER,
             MYSQL_PASSWORD,
             MYSQL_HOST,
-            "3306",
+            MYSQL_PORT,
             MYSQL_DB
         )
 

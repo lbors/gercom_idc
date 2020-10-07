@@ -1,0 +1,62 @@
+slices:
+  sliced:
+    description: Slicing for Xen Service
+    id: XenService_sliced
+    name: XenService_sliced
+    short-name: XenService_sliced
+    slice-lifecycle: {description: lifecycle status, status: construction}
+    slice-part:
+    - dc-slice-part:
+        VIM:
+          host-count: 1
+          name: xen-vim
+          vdus:
+          - description: Xen service
+            epa-attributes:
+              host-epa:
+                cpu-architecture: PREFER_X86_64
+                cpu-number: 2
+                host-image: indefined
+                memory-mb: {greater_or_equal: 8192}
+                os-properties:
+                  architecture: {equal: x86_64}
+                  distribution: ubuntu
+                  type: linux
+                  version: 18.04
+                storage-gb: 100
+            hosting: SHARED
+            id: xen
+            instance-count: 1
+            #ip: 10.10.2.1
+            ip: 10.16.10.101
+            name: xen
+            type: master
+            vdu: null
+            vdu-image: xen-template
+          version: undefined
+          vim-federated: false
+          vim-ref: undefined
+          vim-shared: false
+        monitoring-parameters: 
+          granularity-secs: 10
+          measurements-db-ip: <X>
+          measurements-db-port: <X>
+          metrics:
+          - metric: {name: PERCENT_CPU_UTILIZATION}
+          - metric: {name: MEGABYTES_MEMORY_UTILIZATION}
+          - metric: {name: TOTAL_BYTES_DISK_IN}
+          - metric: {name: TOTAL_BYTES_DISK_OUT}
+          - metric: {name: TOTAL_BYTES_NET_RX}
+          - metric: {name: TOTAL_BYTES_NET_TX}
+          tool: undefined
+          type: host
+        name: dc-slice1
+        type: DC
+    slice-requirements:
+      elasticity: true
+      reliability: {description: reliability level, enabled: true, value: none}
+    slice-timeframe:
+      service-start-time: {100919: 10 pm}
+      service-stop-time: {101019: 10 pm}
+    vendor: undefined
+

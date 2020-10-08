@@ -1,10 +1,13 @@
 host:
-    memory: 1700
-    storage: 295
-#    ip_address: 192.168.122.1
+    #memory: 1700
+    #storage: 295
+    memory: 100000000
+    storage: 10000000
+    #ip_address: 192.168.122.1
     ip_address: 10.126.1.187
+    #ip_address: 10.16.10.100
     hostname: idc-srv
-    availability: 1
+    availability: 10
     location: Brazil
     cpu:
         cycles: 1

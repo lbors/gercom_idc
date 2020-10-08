@@ -1,0 +1,10 @@
+template:
+    name: "xen-template"
+    version: "1"
+    memory: 8
+    vcpu: 2
+    storage: 30
+    ip_address: "10.0.0.0"
+    #ip_address: "10.16.10.0"
+    path: "xen-template"
+    VIM_Type_name: "xen-vim"

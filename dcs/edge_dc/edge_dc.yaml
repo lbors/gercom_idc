@@ -5,7 +5,7 @@ services:
   dcsc-mysql:
     container_name: dcsc-mysql
     image: mysql:5.7.25
-    privileged: true
+    #privileged: true
     environment:
       MYSQL_ROOT_PASSWORD: 'dcscPass!'
       MYSQL_DATABASE: 'dc_slice_controller'
